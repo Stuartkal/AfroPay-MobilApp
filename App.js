@@ -1,21 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {enableScreens} from 'react-native-screens'
+import {createStore, applyMiddleware} from 'redux'
+import {Provider} from 'react-redux'
+import thunk from 'redux-thunk'
+import rootReducer from './src/components/Store/Reducers'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import Navigation from './src/components/Navigation/Navigation'
+import Splash from './src/components/Screens/SplashScreen/Splash'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+console.disableYellowBox = true;
+
+enableScreens()
+
+const store = createStore(rootReducer, applyMiddleware(thunk))
+
+const App = () => {
+	return (
+		<Provider store={store}>
+			<Navigation/>
+		</Provider>
+	);
+};
+
+export default App;
