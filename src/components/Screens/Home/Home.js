@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React,{useEffect,useState} from 'react';
-// import {useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {Text, View, ScrollView} from 'react-native';
 
 import * as actionTypes from '../../Store/ActionCreators'
@@ -18,16 +18,10 @@ import HomeStyles from './HomeStyles'
 
 const Home = (props) => {
 
-  
-
   const [openDepositModal, setOpenDepositModal] = useState(false)
   const [openSendModal, setOpenSendModal] = useState(false)
   const [openWithdrawModal, setOpenWithdrawModal] = useState(false)
-  // const activity = useSelector(state => state.activities.activities)
-  
-  
-
-
+ 
   return (
     <ScrollView style={{backgroundColor: Colors.main}} showsVerticalScrollIndicator={false}>
       <View style={HomeStyles.container}>
@@ -51,7 +45,7 @@ const Home = (props) => {
         <Withdraw 
           visible={openWithdrawModal} 
           setOpenWithdrawModal={setOpenWithdrawModal}
-          />
+          />        
       <StatusBar style="auto" />
     </View>
     </ScrollView>

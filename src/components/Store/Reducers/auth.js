@@ -12,7 +12,6 @@ const intitialState = {
     _message:'',
     authenticated: false,
     loading: false,
-    error: false
 }
 
 const auth = (state = intitialState, action) => {
@@ -39,10 +38,6 @@ const auth = (state = intitialState, action) => {
                 message: action.message
             })
 
-            case actions.ERROR_ACTION: 
-            return updateObject(state, {
-                error: true
-            })
             
         default: return state
     }

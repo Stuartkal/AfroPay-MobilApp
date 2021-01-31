@@ -7,9 +7,11 @@ const intitialState = {
     deposit:{},
     send:{},
     withdraw:{},
+    withdraw_confrim:{},
+    withdrawn:false,
     deposited: false,
     sent: false,
-    withdrawn: false,
+    withdraw_confrimed: false,
     loading: false,
     error: false
 }
@@ -44,7 +46,14 @@ const requests = (state = intitialState, action) => {
         case actions.WITHDRAW_ACTION: 
         return updateObject(state, {
             withdraw: action.data,
-            withdrawn: true,
+            withdrawn:true,
+            loading: false
+        })
+
+        case actions.WITHDRAW_APPROVAL_ACTION: 
+        return updateObject(state, {
+            withdraw_confrim: action.data,
+            withdraw_confrimed:true,
             loading: false
         })
 

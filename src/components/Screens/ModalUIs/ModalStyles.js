@@ -28,7 +28,7 @@ const ModalStyles = StyleSheet.create({
         zIndex:1,
         bottom:0,
         width:'100%',
-        height: Platform.OS === 'ios' ? '98%' : '70%',
+        height: Platform.OS === 'ios' ? '98%' : '85%',
         backgroundColor:'#fff',
         borderTopLeftRadius:30,
         borderTopRightRadius:30,
@@ -45,7 +45,7 @@ const ModalStyles = StyleSheet.create({
         zIndex:1,
         bottom:0,
         width:'100%',
-        height: Platform.OS === 'ios' ? '90%' : '50%',
+        height: Platform.OS === 'ios' ? '90%' : '70%',
         backgroundColor:'#fff',
         borderTopLeftRadius:30,
         borderTopRightRadius:30,
@@ -147,12 +147,12 @@ const ModalStyles = StyleSheet.create({
           alignItems:'center',
           justifyContent:'center',
           width:'70%',
+          height: '25%',
           backgroundColor:'#fff',
           borderTopLeftRadius:5,
           borderTopRightRadius:5,
           borderBottomLeftRadius:5,
           borderBottomRightRadius:5,
-          padding:20,
           elevation:1,
           shadowRadius:6,
           shadowColor:'black',
@@ -166,12 +166,58 @@ const ModalStyles = StyleSheet.create({
           justifyContent:'center',
           marginVertical:5,
           borderWidth:1,
-          borderColor: Color.primary
+          borderColor: Color.primary,
+          marginBottom:15
       },
       btnTxt: {
           color: Color.primary,
           fontSize:18
-      }
+      },
+      confirmHeader: {
+        width:'100%',
+        height:40,
+        alignItems:'center',
+        justifyContent:'center',
+        marginVertical:10,
+        borderBottomWidth:1,
+        borderBottomColor: Color.primary
+    },
+    headerTxt: {
+        fontSize:19,
+        color: Color.primary
+    },
+    text: {
+        fontSize: 16
+    },
+    button: {
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor: Color.primary,
+        width:50,
+        height: 40,
+        borderRadius:5,
+        marginVertical:5,
+        marginBottom:10
+    },
+    btnText1: {
+        color:'#fff',
+        fontSize: 18
+    },
+    btnRow: {
+        alignItems:'center',
+        justifyContent:'space-between',
+        flexDirection:'row',
+        marginVertical:10,
+        width:'70%'
+    },
+    btn:{
+        alignItems:'center',
+        justifyContent:'center',
+        flexDirection:'row',
+        backgroundColor: Color.primary,
+        width:90,
+        height: 40,
+    }
 })
 
 export default ModalStyles

@@ -1,5 +1,5 @@
-import React,{useState} from 'react'
-import {useDispatch} from 'react-redux'
+import React,{useState,useEffect} from 'react'
+import {useDispatch,useSelector} from 'react-redux'
 import { TextInput,Text,View,Modal, KeyboardAvoidingView} from 'react-native'
 import Ripple from 'react-native-material-ripple'
 import { Ionicons } from '@expo/vector-icons'
@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import SelectModal from './SelectModal'
 import * as actionTypes from '../../Store/ActionCreators'
+import ConfirmSendMoney from '../Confirmation/ConfirmSendMoney'
 
 import Color from '../../constants/Color'
 import ModalStyles from './ModalStyles'
@@ -18,20 +19,45 @@ const SendMoney = ({visible,setOpenSendModal}) => {
     const [phone ,setPhone] = useState('')
     const [remarks ,setRemarks] = useState('')
 
-    // console.log('object',sending_option_id,receiver_id,phone,amount,remarks)
+    const [error, setError] = useState('')
 
+    const balance = useSelector(state => state.auth._balance)
+    
+    const [openSendConfrimModal ,setOpenSendConfrimModal] = useState(false)
     const [open ,setOpen] = useState(false)
+
+
+    useEffect(()=>{
+        if(amount >= 1){
+            setError('')
+        }
+    },[amount])
 
     const dispatch = useDispatch()
 
+
    const handleSendMoneySubmit = () => {
-        dispatch(actionTypes.sendMoney(sending_option_id,receiver_id,amount,phone,remarks))
-        setSending_option_id('')
-        setReceiver_id('')
-        setAmount('')
-        setPhone('')
-        setRemarks('')
-        setOpenSendModal(false)
+        dispatch(actionTypes.sendMoney(sending_option_id,receiver_id,amount,phone,remarks,(res)=>{
+            console.log('jodi',res)
+            if(sending_option_id.length < 1 || receiver_id < 1 || amount < 3 || phone < 10 || remarks < 1){
+                setError('Invalid input, enter all fields')
+            }
+            if(sending_option_id.length >= 1 || receiver_id >= 1 || amount >= 3 || phone === 10 || remarks >= 1){
+                if(res.success === false){
+                    return setError('User Not Found')
+                }
+                if(amount.localeCompare(balance) === 0){
+                    return setError('You have insuficient balance to make transfer')
+                }
+                setOpenSendConfrimModal(true)
+                setSending_option_id('')
+                setReceiver_id('')
+                setAmount('')
+                setPhone('')
+                setRemarks('')
+            }
+            
+        }))
     }
 
     const handleMTNSubmit = () => {
@@ -51,7 +77,14 @@ const SendMoney = ({visible,setOpenSendModal}) => {
                 transparent={true}
                 visible={visible}
             >
+            <ConfirmSendMoney
+            visible={openSendConfrimModal}
+            setOpenSendConfrimModal={setOpenSendConfrimModal}
+            />
             <SelectModal visible={open} close={setOpen}>
+                <View style={ModalStyles.confirmHeader}>
+                    <Text style={ModalStyles.headerTxt}>Choose Payment Method</Text>
+                </View>
                 <Ripple onPress={handleMTNSubmit} style={ModalStyles.paymentBtn}>
                     <Text style={ModalStyles.btnTxt}>MTN Mobile Money</Text>
                 </Ripple>
@@ -64,7 +97,10 @@ const SendMoney = ({visible,setOpenSendModal}) => {
                     <View style={ModalStyles.header2}>
                         <View style={ModalStyles.headerInner}>
                             <Ionicons onPress={() => setOpenSendModal(false)} name="close" size={30} color={Color.primary} />
-                            <Text style={ModalStyles.headerTxt2}>Send Money</Text>
+                            {
+                                error ? <Text style={{color:'red',fontSize:18}}>{error}</Text> 
+                                : <Text style={ModalStyles.headerTxt2}>Send Money</Text>
+                            }
                             <View style={{width:30}}/>
                         </View>
                     </View>
@@ -79,7 +115,7 @@ const SendMoney = ({visible,setOpenSendModal}) => {
                             // autoFocus={true}
                         />
                     </View>
-                        <Text style={{color:Color.txtFaint,fontSize:14}}>Avalilable Balance: 300,000</Text>
+                        <Text style={{color:Color.txtFaint,fontSize:14}}>Avalilable Balance: {balance}</Text>
                     <View style={ModalStyles.inputRow2}>
                         <MaterialIcons style={{marginRight:10}} name="phone-iphone" size={40} color="#fff" color={Color.primary} />
                         <TextInput 

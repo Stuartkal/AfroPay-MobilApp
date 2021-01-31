@@ -3,7 +3,6 @@ import React,{useState, useEffect} from 'react';
 import * as actionCreators from '../../Store/ActionCreators'
 import {useDispatch, useSelector} from 'react-redux'
 import {Text, View, TextInput, TouchableOpacity, Image,KeyboardAvoidingView} from 'react-native';
-import {LinearGradient} from 'expo-linear-gradient'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import Color from '../../constants/Color'
@@ -11,21 +10,35 @@ import AuthStyles from './AuthStyles'
 
 const Auth = (props) => {
   
-    const [email, setEmail] = useState('tester@gmail.com')
-    const [password, setPassword] = useState('pass0123')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const [error, setError] = useState('')
 
     const auth = useSelector(state => state.auth.authenticated)
-  // console.log(auth)
+  
   const dispatch = useDispatch()
 
   useEffect(()=>{
+    
     if(auth === true){
         props.navigation.navigate({routeName:'Home'})
     }
   },[auth])
 
+  let emailReg_expression = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
   const loginSubmit = () => {
-    dispatch(actionCreators.login(email,password))
+
+    if(emailReg_expression.test(email) === false){
+      return setError('Email is Invalid')
+    }
+
+    dispatch(actionCreators.login(email,password, (res) => {
+      if(res.success === false){
+        setError('Invalid User please Sign Up')
+      }
+    }))
   }
 
   return (
@@ -57,9 +70,10 @@ const Auth = (props) => {
               <Text style={AuthStyles.buttonText}>Login</Text>
           </TouchableOpacity>
           <View style={AuthStyles.registerContainer}>
-              <Text onPress={() => props.navigation.navigate({routeName:'Register'})} style={AuthStyles.text3}>Register</Text>
+              <Text onPress={() => props.navigation.navigate({routeName:'Register'})} style={AuthStyles.text3}>Sign Up</Text>
               <Text style={AuthStyles.text3}>Forgot Password?</Text>
           </View>
+          <Text style={{color:'red',marginTop:20}}>{error}</Text>
           <StatusBar style="auto" />
     </View>
       </KeyboardAvoidingView>

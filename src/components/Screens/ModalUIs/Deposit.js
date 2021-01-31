@@ -1,10 +1,11 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import { TextInput,Text,View,Modal, KeyboardAvoidingView} from 'react-native'
 import Ripple from 'react-native-material-ripple'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
 import SelectModal from './SelectModal'
+import ConfirmDeposit from '../Confirmation/ConfirmDeposit'
 
 import * as actionTypes from '../../Store/ActionCreators'
 import Color from '../../constants/Color'
@@ -15,17 +16,31 @@ const Deposit = ({visible,setOpenDepositModal}) => {
     const [phone, setPhone] = useState('')
     const [payment_method_id, setPayment_method_id] = useState('')
     // console.log('object',payment_method_id,phone,amount)
+    const [error, setError] = useState('')
 
+    const [openDepositConfrimModal ,setOpenDepositConfrimModal] = useState(false)
     const [open ,setOpen] = useState(false)
+
+    useEffect(()=>{
+        if(amount.length >=3){
+            setError('')
+        }
+    },[amount])
 
     const dispatch = useDispatch()
 
     const handleDepositeSubmit = () => {
-    dispatch(actionTypes.deposit(amount,phone,payment_method_id))
-    setAmount('')
-    setPhone('')
-    setPayment_method_id('')
-    setOpenDepositModal(false)
+    dispatch(actionTypes.deposit(amount,phone,payment_method_id,(res)=>{
+        if(res.success === false){
+            setError('Please enter all fields with correct details')
+        }
+        if(res.success === true){
+            setOpenDepositConfrimModal(true)
+            setAmount('')
+            setPhone('')
+            setPayment_method_id('')
+        }
+    }))
     }
 
     const handleMTNSubmit = () => {
@@ -48,7 +63,14 @@ const Deposit = ({visible,setOpenDepositModal}) => {
                 transparent={true}
                 visible={visible}
             >
+                <ConfirmDeposit
+                    visible={openDepositConfrimModal}
+                    setOpenDepositConfrimModal={setOpenDepositConfrimModal}
+                />
             <SelectModal visible={open} close={setOpen}>
+                <View style={ModalStyles.confirmHeader}>
+                    <Text style={ModalStyles.headerTxt}>Choose Payment Method</Text>
+                </View>
                 <Ripple onPress={handleMTNSubmit} style={ModalStyles.paymentBtn}>
                     <Text style={ModalStyles.btnTxt}>MTN Mobile Money</Text>
                 </Ripple>
@@ -61,7 +83,10 @@ const Deposit = ({visible,setOpenDepositModal}) => {
                     <View style={ModalStyles.header2}>
                         <View style={ModalStyles.headerInner}>
                             <Ionicons onPress={() => setOpenDepositModal(false)} name="close" size={30} color={Color.primary} />
-                            <Text style={ModalStyles.headerTxt2}>Deposit</Text>
+                            {
+                                error ? <Text style={{color:'red',fontSize:18}}>{error}</Text> 
+                                : <Text style={ModalStyles.headerTxt2}>Deposit Money</Text>
+                            }
                             <View style={{width:30}}/>
                         </View>
                     </View>

@@ -3,15 +3,16 @@ import React,{useState,useEffect} from 'react';
 import * as actionCreators from '../../Store/ActionCreators'
 import {useDispatch, useSelector} from 'react-redux'
 import {Text, View, TextInput, TouchableOpacity, Image, ScrollView,KeyboardAvoidingView} from 'react-native';
-import {LinearGradient} from 'expo-linear-gradient'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 
 import Color from '../../constants/Color'
 import AuthStyles from './AuthStyles'
 
-const Register = (props) => {
 
+const Register = (props) => {
+    const [fname, setFname] = useState('')
+    const [lname, setLname] = useState('')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
@@ -19,41 +20,87 @@ const Register = (props) => {
     const [password, setPassword] = useState('')
     const [password_confirmation, setPasswordConfirmation] = useState('')
 
-    const message = useSelector(state => state.auth.message)
+    const [error, setError] = useState('')
+    const [successMessage, setSuccessMessage] = useState('')
+
 
     const dispatch = useDispatch()
 
-    useEffect(()=>{
-        if(message){
-            setTimeout(()=>{
-                props.navigation.navigate({routeName:'Auth'})
-            },2000)
-        }
-    },[dispatch, message])
+    let emailReg_expression = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
+    let phoneReg_expression = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+
+    let password_strength;
+    
+        if(password.length < 8){
+            password_strength = <Text style={{color:'red'}}>Password is too weak must be atleast 8 characters</Text>
+        }
+
+        if(password.length < 1){
+            password_strength = null
+        }
+        
 
   const registerSubmit = () => {
-    dispatch(actionCreators.register(name, email, phone, role, password, password_confirmation))
-    setEmail(''),
-    setName(''),
-    setPhone(''),
-    setRole(''),
-    setPassword(''),
-    setPasswordConfirmation('')
+
+      if(emailReg_expression.test(email) === false){
+            return setError('Email is Invalid')
+      }
+
+      if(phoneReg_expression.test(phone) === false){
+        return setError('Phone Number is inavlid')
+    }
+
+      if(password.length < 8){
+        return setError('Password is too weak must be atleast 8 characters')
+      }
+
+      if(password.localeCompare(password_confirmation) !== 0){
+        return setError('Passwords dont match')
+    }
+
+      setName(fname +' '+ lname)
+      dispatch(actionCreators.register(name, email, phone, role, password, password_confirmation,(res)=>{
+          if(res.success === false){
+              setError('User Id already Exists, or one of the fields is invalid')
+          }
+          else{
+              setSuccessMessage('User Registered Successfully!')
+              setTimeout(()=>{
+                props.navigation.navigate({routeName:'Auth'})
+            },2000)
+          }
+      }))
+    // setEmail(''),
+    // setName(''),
+    // setPhone(''),
+    // setRole(''),
+    // setPassword(''),
+    // setPasswordConfirmation('')
   }
 
   return (
     <KeyboardAvoidingView behavior="height" style={AuthStyles.screen}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={AuthStyles.container}>
-                    <Image style={AuthStyles.image} source={require('../../../../assets/images/logo.png')}/>
+                    <Image style={AuthStyles.image2} source={require('../../../../assets/images/logo.png')}/>
                     <View style={AuthStyles.inputRow}>
                         <FontAwesome5 name="user" size={24} color={Color.primary} />
                         <TextInput 
-                            placeholder="Name" 
+                            placeholder="First Name" 
                             style={AuthStyles.input}
-                            value={name}
-                            onChangeText={(e) => setName(e)}
+                            value={fname}
+                            onChangeText={(e) => setFname(e)}
+                            returnKeyType='next'
+                        />
+                    </View>
+                    <View style={AuthStyles.inputRow}>
+                        <FontAwesome5 name="user" size={24} color={Color.primary} />
+                        <TextInput 
+                            placeholder="Last Name" 
+                            style={AuthStyles.input}
+                            value={lname}
+                            onChangeText={(e) => setLname(e)}
                             returnKeyType='next'
                         />
                     </View>
@@ -76,16 +123,18 @@ const Register = (props) => {
                             value={phone}
                             onChangeText={(e) => setPhone(e)}
                             returnKeyType='next'
+                            keyboardType="numeric"
                         />
                     </View>
                     <View style={AuthStyles.inputRow}>
-                        <FontAwesome5 name="user-cog" size={24} color={Color.primary} />
+                        <MaterialCommunityIcons name="account-cog-outline" size={24} color={Color.primary} />
                         <TextInput 
                             placeholder="Role" 
                             style={AuthStyles.input}
                             value={role}
                             onChangeText={(e) => setRole(e)}
                             returnKeyType='next'
+                            keyboardType="numeric"
                         />
                     </View>
                     <View style={AuthStyles.inputRow}>
@@ -99,6 +148,7 @@ const Register = (props) => {
                             secureTextEntry={true}
                         />
                     </View>
+                    {password_strength}
                     <View style={AuthStyles.inputRow}>
                         <MaterialCommunityIcons name="lock-outline" size={24} color={Color.primary} />
                         <TextInput 
@@ -110,7 +160,8 @@ const Register = (props) => {
                             secureTextEntry={true}
                         />
                     </View>
-                    <Text style={AuthStyles.text2}>{message}</Text>
+                    <Text style={AuthStyles.text2}>{successMessage}</Text>
+                    <Text style={{color:'red'}}>{error}</Text>
                     <TouchableOpacity activeOpacity={0.8} style={AuthStyles.buttonContainer} onPress={registerSubmit}>
                         <Text style={AuthStyles.buttonText}>Register</Text>
                     </TouchableOpacity>

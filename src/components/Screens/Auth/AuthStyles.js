@@ -12,7 +12,8 @@ const AuthStyles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      width:'95%'
+      width:'95%',
+      marginTop:20,
     },
     text1: {
         fontSize: 40,
@@ -37,6 +38,11 @@ const AuthStyles = StyleSheet.create({
     image: {
         width:200,
         height:200,
+        resizeMode:'contain'
+    },
+    image2: {
+        width:100,
+        height:100,
         resizeMode:'contain'
     },
     input: {

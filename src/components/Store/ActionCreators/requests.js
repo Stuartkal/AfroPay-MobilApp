@@ -8,11 +8,6 @@ export const loading = () => {
     }
 }
 
-export const error = () => {
-    return {
-        type: actionTypes.ERROR_ACTION
-    }
-}
 
 export const activitiesSucces = (data) => {
     return {
@@ -46,7 +41,7 @@ export const getActivities = () => {
         })
         .catch(err => {
             console.log(err.message)
-            dispatch(error())
+            
         })
     }
 }
@@ -58,7 +53,7 @@ export const depositAction = (data) => {
     }
 }
 
-export const deposit = (amount,phone,payment_method_id) => {
+export const deposit = (amount,phone,payment_method_id,callback) => {
     return (dispatch,getState) => {
 
         dispatch(loading())
@@ -92,9 +87,10 @@ export const deposit = (amount,phone,payment_method_id) => {
         .then(res => {
             console.log(res)
             dispatch(depositAction(res.data))
+            callback({success: true, res})
         })
         .catch(err => {
-            dispatch(error())
+            callback({success: false, res: err})
             console.log(err.message)
         })
 
@@ -108,7 +104,7 @@ export const sendmoneyAction = (data) => {
     }
 }
 
-export const sendMoney = (sending_option_id,receiver_id,amount,phone,remarks) => {
+export const sendMoney = (sending_option_id,receiver_id,amount,phone,remarks,callback) => {
     return (dispatch,getState) => {
 
         dispatch(loading())
@@ -142,11 +138,12 @@ export const sendMoney = (sending_option_id,receiver_id,amount,phone,remarks) =>
 
         axios.post('http://165.22.196.206/api/send',data,requestOptions)
         .then(res => {
-            console.log(res)
+            // console.log(res)
             dispatch(sendmoneyAction(res.data))
+            callback({success: true, res})
         })
         .catch(err => {
-            dispatch(error())
+            callback({success: false, res: err})
             console.log(err.message)
         })
     }
@@ -159,7 +156,7 @@ export const withdrawAction = (data) => {
     }
 }
 
-export const withdraw = (amount,agent_id) => {
+export const withdraw = (amount,agent_id,callback) => {
     return (dispatch,getState) => {
 
         dispatch(loading())
@@ -190,12 +187,85 @@ export const withdraw = (amount,agent_id) => {
 
         axios.post('http://165.22.196.206/api/withdraw',data,requestOptions)
         .then(res => {
-            console.log(res)
+            // console.log(res)
             dispatch(withdrawAction(res.data))
+            callback({success: true, res})
         })
         .catch(err => {
-            dispatch(error())
+            callback({success: false, res: err})
             console.log(err.message)
+        })
+    }
+}
+
+    export const withdrawApprovalAction = (data) => {
+    return {
+        type: actionTypes.WITHDRAW_APPROVAL_ACTION,
+        data
+    }
+}
+
+    export const withdrawApproval = (id) => {
+    return (dispatch, getState) => {
+        dispatch(loading())
+        
+        const token = getState().auth._token
+
+        axios.interceptors.request.use(
+            config => {
+                config.headers.authorization = `Bearer ${token}`;
+                return config
+            },
+            error => {
+                return Promise.reject(error)
+            }
+        )    
+
+        // console.log('object',token)
+        axios.get(`http://165.22.196.206/api/withdraws/approve/${id}`)
+        .then(res => {
+            console.log(res.data)
+            dispatch(withdrawApprovalAction(res.data))
+        })
+        .catch(err => {
+            console.log(err.message)
+            
+        })
+    }
+}
+
+export const withdrawCancelAction = (data) => {
+    return {
+        type: actionTypes.WITHDRAW_CANCEL_ACTION,
+        data
+    }
+}
+
+    export const withdrawCancel = (id) => {
+    return (dispatch, getState) => {
+        dispatch(loading())
+        
+        const token = getState().auth._token
+
+        axios.interceptors.request.use(
+            config => {
+                config.headers.authorization = `Bearer ${token}`;
+                return config
+            },
+            error => {
+                return Promise.reject(error)
+            }
+        )    
+
+        // console.log('object',token)
+        axios.get(`http://165.22.196.206/api/withdraws/cancel/${id}`)
+        .then(res => {
+            console.log(res.data)
+            dispatch(withdrawCancelAction(res.data))
+        })
+        .catch(err => {
+            console.log(err.message)
+            
         })
     }
 }

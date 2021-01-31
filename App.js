@@ -8,6 +8,7 @@ import rootReducer from './src/components/Store/Reducers'
 import Navigation from './src/components/Navigation/Navigation'
 import Splash from './src/components/Screens/SplashScreen/Splash'
 
+
 console.disableYellowBox = true;
 
 enableScreens()

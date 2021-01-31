@@ -1,2 +1,2 @@
-export {login, register} from './auth'
-export {getActivities,deposit,sendMoney,withdraw} from './requests'
+export {login, register,error} from './auth'
+export {getActivities,deposit,sendMoney,withdraw,withdrawApproval,withdrawCancel} from './requests'

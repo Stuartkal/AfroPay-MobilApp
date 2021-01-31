@@ -9,12 +9,6 @@ export const loading = () => {
     }
 }
 
-export const error = () => {
-    return {
-        type: actionTypes.ERROR_ACTION
-    }
-}
-
 export const loginSuccess = (name, email, phone, balance, role, token) => {
     return {
         type: actions.LOGIN_ACTION,
@@ -27,7 +21,7 @@ export const loginSuccess = (name, email, phone, balance, role, token) => {
     }
 }
 
-export const login = (email, password) => {
+export const login = (email, password,callback) => {
     return dispatch => {
 
         dispatch(loading())
@@ -48,10 +42,11 @@ export const login = (email, password) => {
         .then(res => {
             // console.log(res.data.access_token)
             dispatch(loginSuccess(res.data.name, res.data.email, res.data.phone, res.data.balance, res.data.role, res.data.access_token))
+            callback({success: true, res})
         })
         .catch(err => {
-            dispatch(error())
-            console.log(err)
+            callback({success: false, res: err})
+            console.log(err.message)
         })
         
     }
@@ -64,7 +59,7 @@ export const registerAction = (message) => {
     }
 }
 
-export const register = (name, email, phone, role, password, password_confirmation) => {
+export const register = (name, email, phone, role, password, password_confirmation,callback) => {
     return dispatch => {
 
         dispatch(loading())
@@ -87,12 +82,13 @@ export const register = (name, email, phone, role, password, password_confirmati
 
         axios.post('http://165.22.196.206/api/auth/register',data,requestOptions)
         .then(res => {
-            // console.log(res.data.message)
+            console.log(res.data)
             dispatch(registerAction(res.data.message))
+            callback({success: true, res})
         })
         .catch(err => {
-            dispatch(error())
-            console.log(err)
+            callback({success: false, res: err})
+            console.log(err.message)
         })
     }
 }
