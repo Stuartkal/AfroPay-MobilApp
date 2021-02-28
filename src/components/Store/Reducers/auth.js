@@ -1,28 +1,28 @@
 import * as actions from '../ActionCreators/actions'
-import {updateObject} from './utility'
+import { updateObject } from './utility'
 
 
 const intitialState = {
-    _name:'',
-    _email:'',
-    _phone:'',
-    _balance:'',
-    _role:'',
-    _token:'',
-    _message:'',
+    _name: '',
+    _email: '',
+    _phone: '',
+    _balance: '',
+    _role: '',
+    _token: '',
+    _message: '',
     authenticated: false,
     loading: false,
 }
 
 const auth = (state = intitialState, action) => {
-    switch(action.type){
+    switch (action.type) {
 
-        case actions.LOADING_ACTION: 
-        return updateObject(state, {
-            loading: true
-        })
-        
-            case actions.LOGIN_ACTION:
+        case actions.LOADING_ACTION:
+            return updateObject(state, {
+                loading: true
+            })
+
+        case actions.LOGIN_ACTION:
             return updateObject(state, {
                 authenticated: true,
                 _name: action.name,
@@ -33,12 +33,17 @@ const auth = (state = intitialState, action) => {
                 _token: action.token
             })
 
-            case actions.REGISTER_ACTION:
+        case actions.REMOVE_USER:
+            return updateObject(state, {
+                authenticated: false,
+            })
+
+        case actions.REGISTER_ACTION:
             return updateObject(state, {
                 message: action.message
             })
 
-            
+
         default: return state
     }
 }

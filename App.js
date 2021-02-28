@@ -1,24 +1,33 @@
 import React from 'react';
-import {enableScreens} from 'react-native-screens'
-import {createStore, applyMiddleware} from 'redux'
-import {Provider} from 'react-redux'
+import { enableScreens } from 'react-native-screens'
+import { createStore, applyMiddleware, compose } from 'redux'
+import { Provider } from 'react-redux'
+import { persistStore, persistReducer } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import thunk from 'redux-thunk'
 import rootReducer from './src/components/Store/Reducers'
 
 import Navigation from './src/components/Navigation/Navigation'
-import Splash from './src/components/Screens/SplashScreen/Splash'
-
 
 console.disableYellowBox = true;
 
 enableScreens()
 
-const store = createStore(rootReducer, applyMiddleware(thunk))
+const reducerPersisitor = persistReducer({ key: "root", storage: AsyncStorage }, rootReducer)
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(reducerPersisitor, composeEnhancers(applyMiddleware(thunk)))
+
+const persistor = persistStore(store)
 
 const App = () => {
 	return (
 		<Provider store={store}>
-			<Navigation/>
+			<PersistGate loading={null} persistor={persistor}>
+				<Navigation />
+			</PersistGate>
 		</Provider>
 	);
 };
