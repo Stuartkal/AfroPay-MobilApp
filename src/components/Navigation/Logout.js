@@ -2,10 +2,14 @@ import React from "react";
 import { useDispatch } from 'react-redux'
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { DrawerItems } from 'react-navigation-drawer'
+import * as actionCreators from '../Store/ActionCreators'
 
 const Logout = (props) => {
 
+    const dispatch = useDispatch()
+
     const logout = () => {
+        dispatch(actionCreators.logout())
         props.navigation.navigate({ routeName: 'Auth' })
     }
 

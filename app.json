@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "AfroPay",
-    "slug": "AfroPay",
+    "slug": "afro-pay",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

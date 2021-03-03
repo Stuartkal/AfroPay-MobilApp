@@ -6,7 +6,7 @@ const DeposteReceipt = ({ deposites }) => {
 
     return (
         <View style={PaymentsStyles.depositContainer}>
-            <Text style={PaymentsStyles.recentTxt}>Deposits</Text>
+            <Text style={PaymentsStyles.recentTxt1}>Deposits</Text>
             {
                 deposites.map(deposit => (
                     <View style={PaymentsStyles.recentContainer} key={deposit.id}>

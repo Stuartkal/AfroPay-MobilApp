@@ -52,7 +52,7 @@ export const login = (email, password, callback) => {
             })
             .catch(err => {
                 callback({ success: false, res: err })
-                console.log(err.message)
+                // console.log(err.message)
             })
 
     }
@@ -88,13 +88,13 @@ export const register = (name, email, phone, role, password, password_confirmati
 
         axios.post('http://165.22.196.206/api/auth/register', data, requestOptions)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 dispatch(registerAction(res.data.message))
                 callback({ success: true, res })
             })
             .catch(err => {
                 callback({ success: false, res: err })
-                console.log(err.message)
+                // console.log(err.message)
             })
     }
 }

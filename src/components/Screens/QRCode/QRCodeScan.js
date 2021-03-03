@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { View, Text, Button } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderBtn from '../../Navigation/HeaderBtn'
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import * as actionCreators from '../../Store/ActionCreators'
 
 import QRCodeStyles from './QRCodeStyles'
 
@@ -12,7 +14,10 @@ const QRCodeScan = () => {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
 
+    const dispatch = useDispatch()
+
     useEffect(() => {
+        // dispatch(actionCreators.qrcodeScan())
         (async () => {
             const { status } = await BarCodeScanner.requestPermissionsAsync();
             setHasPermission(status === 'granted');

@@ -17,7 +17,6 @@ const Payments = () => {
   const withdrawals = useSelector(state => state.receipts.withdrawals)
   const transfers = useSelector(state => state.receipts.transfers)
 
-  console.log(withdrawals, 'fff')
 
   const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 

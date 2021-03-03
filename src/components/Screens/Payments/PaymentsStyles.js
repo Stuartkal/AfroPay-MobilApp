@@ -136,20 +136,25 @@ const PaymentsStyles = StyleSheet.create({
         backgroundColor: '#6dae1e60',
         marginRight: 10
     },
-    recentTxt: {
+    recentTxt1: {
         fontSize: 20,
+        color: Color.primary
+    },
+    recentTxt: {
+        fontSize: Dimensions.get('window').width < 800 ? 15 : 20,
+        color: 'black'
     },
     time: {
         color: Color.txtFaint,
-        fontSize: 18
+        fontSize: Dimensions.get('window').width < 800 ? 14 : 18,
 
     },
     recentTxt2: {
-        fontSize: 20,
+        fontSize: Dimensions.get('window').width < 800 ? 15 : 20,
         color: 'rgba(0,0,0,0.5)'
     },
     recentTxt3: {
-        fontSize: 25,
+        fontSize: Dimensions.get('window').width < 800 ? 18 : 25,
         color: Color.secondary
     },
 })

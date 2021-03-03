@@ -6,7 +6,7 @@ const TransferMoneyReceipts = ({ transfers }) => {
 
     return (
         <View style={PaymentsStyles.depositContainer}>
-            <Text style={PaymentsStyles.recentTxt}>Transfers</Text>
+            <Text style={PaymentsStyles.recentTxt1}>Transfers</Text>
             {
                 transfers.map(transfer => (
                     <View style={PaymentsStyles.recentContainer} key={transfer.id}>
