@@ -287,9 +287,18 @@ export const qrcodeScan = () => {
             }
         )
 
-        axios.post('afropay.site/api/qr-code-user?qr_code=qhqYRM2QTU2oSq5bYim9szv0hECfvjWMWkNqdtJqRM1Y5')
+        // let requestOptions = {
+        //     headers: {
+        //         'Content-Type': 'application/x-www-form-urlencoded',
+        //         'Accept': 'application/json'
+        //     }
+        // }
+
+        const qrcode = 'qhqYRM2QTU2oSq5bYim9szv0hECfvjWMWkNqdtJqRM1Y5'
+
+        axios.post(`afropay.site/api/qr-code-user?qr_code=${qrcode}`)
             .then(res => {
-                console.log(res)
+                console.log(res, 'qrcode')
             })
             .catch(err => {
                 console.log(err)
