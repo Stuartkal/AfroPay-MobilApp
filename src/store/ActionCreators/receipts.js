@@ -47,7 +47,7 @@ export const withdrawReceipts = () => {
         // console.log('object',token)
         axios.get('http://165.22.196.206/api/get_withdraws')
             .then(res => {
-                // console.log(res.data)
+                console.log('withdrawals', res.data)
                 dispatch(withdrawReceiptsAction(res.data))
             })
             .catch(err => {

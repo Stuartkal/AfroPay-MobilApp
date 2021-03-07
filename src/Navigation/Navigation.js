@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 // import { createDrawerNavigator } from '@react-navigation/drawer'
 import Auth from '../Screens/Auth/Auth'
 import Register from '../Screens/Auth/Register'
-import Home from '../Screens/Home/Home'
+import Home, { screenOptions as homeOptions } from '../Screens/Home/Home'
 import Payments from '../Screens/Payments/Payments'
 import QRCode from '../Screens/QRCode/QRCodeScan'
 import confirmPayment from '../Screens/Confirm/ConfirmPayment'
@@ -29,12 +29,12 @@ export const AppNavigation = () => {
         headerTitleStyle: {
             fontSize: 25
         },
-        headerTintColor: Color.primary
+        headerTintColor: Color.primary,
     }
 
     return (
         <StackNavigation.Navigator screenOptions={defaultOptions}>
-            <StackNavigation.Screen name="AfroPay" component={Home} />
+            <StackNavigation.Screen name="AfroPay" component={Home} options={homeOptions} />
             <StackNavigation.Screen name="Payments" component={Payments} />
             <StackNavigation.Screen name="confirmPayment" component={confirmPayment} />
             <StackNavigation.Screen name="QRCode" component={QRCode} />
@@ -85,6 +85,16 @@ export const AppTabNavigation = () => {
             }
         }} />
     </TabNavigation.Navigator>
+}
+
+export const Authentication = () => {
+    return (
+        <StackNavigation.Navigator>
+            <StackNavigation.Screen name="Login" component={Auth} options={{ headerShown: false }} />
+            <StackNavigation.Screen name="SignUP" component={Register} options={{ headerShown: false }} />
+            <StackNavigation.Screen name="Home" component={AppTabNavigation} />
+        </StackNavigation.Navigator>
+    )
 }
 
 // const DrawerNavigator = createDrawerNavigator()
