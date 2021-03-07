@@ -1,8 +1,18 @@
 import React from 'react'
 import { HeaderButton } from 'react-navigation-header-buttons'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { useDispatch } from 'react-redux'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import * as actionCreators from '../Store/ActionCreators'
+
 import Color from '../constants/Color'
 const HeaderBtn = (props) => {
-    return <HeaderButton {...props} IconComponent={FontAwesome} iconSize={24} color={Color.primary} />
+    const dispatch = useDispatch()
+
+    const logout = () => {
+        dispatch(actionCreators.logout())
+        props.navigation.navigate({ routeName: 'Auth' })
+    }
+
+    return <HeaderButton onPress={logout} {...props} IconComponent={Ionicons} iconSize={24} color={Color.primary} />
 }
 export default HeaderBtn
