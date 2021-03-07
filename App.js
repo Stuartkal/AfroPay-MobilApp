@@ -12,14 +12,22 @@ import { View, Text } from 'react-native'
 import Auth from './src/Screens/Auth/Register'
 import Navigation from './src/Navigation'
 
+enableScreens()
+
+const reducerPersisitor = persistReducer({ key: "root", storage: AsyncStorage }, rootReducer)
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
+const store = createStore(reducerPersisitor, composeEnhancers(applyMiddleware(thunk)))
+
+const persistor = persistStore(store)
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Navigation />
+      <PersistGate loading={null} persistor={persistor}>
+        <Navigation />
+      </PersistGate>
     </Provider>
   )
 }

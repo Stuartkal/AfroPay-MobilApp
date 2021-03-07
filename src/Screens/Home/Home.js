@@ -2,7 +2,8 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import Ripple from 'react-native-material-ripple'
 import MaterialIons from 'react-native-vector-icons/MaterialIcons'
-
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import HeaderBtn from '../../Navigation/HeaderBtn'
 import Color from '../../constants/Color'
 import Styles from './Styles'
 
@@ -45,6 +46,22 @@ const Home = () => {
             </View>
         </View>
     )
+}
+
+export const screenOptions = (navData) => {
+    return {
+        headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={HeaderBtn}>
+                <Item
+                    title="profile"
+                    iconName="log-in-outline"
+                    onPress={() => {
+                        navData.navigation.toggleDrawer()
+                    }}
+                />
+            </HeaderButtons>
+        )
+    }
 }
 
 export default Home

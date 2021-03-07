@@ -1,10 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native';
-import { AppTabNavigation } from './Navigation'
+import { AppTabNavigation, Authentication } from './Navigation'
+
 const index = () => {
+    const auth = useSelector(state => state.auth.authenticated)
     return (
         <NavigationContainer>
-            <AppTabNavigation />
+            {auth && <Authentication />}
+            {!auth && <AppTabNavigation />}
         </NavigationContainer>
     )
 }
