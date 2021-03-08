@@ -24,7 +24,8 @@ const Styles = StyleSheet.create({
         paddingHorizontal: 5
     },
     label3: {
-        color: Color.txtFaint
+        color: Color.txtFaint,
+        fontSize: 15
     },
     paymentHistory: {
         marginTop: 40,

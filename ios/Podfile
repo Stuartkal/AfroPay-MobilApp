@@ -18,6 +18,9 @@ target 'AfroPayApp' do
 
   pod 'react-native-safe-area-context', :path => '../node_modules/react-native-safe-area-context'
 
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
+
   target 'AfroPayAppTests' do
     inherit! :complete
     # Pods for testing
