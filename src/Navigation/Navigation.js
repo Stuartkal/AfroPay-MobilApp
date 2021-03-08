@@ -91,7 +91,7 @@ export const Authentication = () => {
     return (
         <StackNavigation.Navigator>
             <StackNavigation.Screen name="Login" component={Auth} options={{ headerShown: false }} />
-            <StackNavigation.Screen name="SignUP" component={Register} options={{ headerShown: false }} />
+            <StackNavigation.Screen name="Register" component={Register} options={{ headerShown: false }} />
             <StackNavigation.Screen name="Home" component={AppTabNavigation} />
         </StackNavigation.Navigator>
     )

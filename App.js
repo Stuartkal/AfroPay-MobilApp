@@ -23,6 +23,8 @@ const store = createStore(reducerPersisitor, composeEnhancers(applyMiddleware(th
 const persistor = persistStore(store)
 
 const App = () => {
+
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

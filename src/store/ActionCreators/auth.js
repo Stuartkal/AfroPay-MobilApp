@@ -46,7 +46,7 @@ export const login = (email, password, callback) => {
 
         axios.post('http://165.22.196.206/api/auth/login', data, requestOptions)
             .then(res => {
-                // console.log(res.data)
+                console.log(res.data)
                 dispatch(loginSuccess(res.data.name, res.data.email, res.data.phone, res.data.balance, res.data.role, res.data.access_token))
                 callback({ success: true, res })
             })
