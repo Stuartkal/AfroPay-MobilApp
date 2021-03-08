@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 
 import Styles from './Styles'
-const Receipt = () => {
+const Withdraw = () => {
     return (
         <View style={Styles.recieptRow}>
             <View style={Styles.recentRow2}>
@@ -17,4 +17,4 @@ const Receipt = () => {
     )
 }
 
-export default Receipt
+export default Withdraw

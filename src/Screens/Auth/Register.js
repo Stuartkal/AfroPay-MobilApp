@@ -166,7 +166,7 @@ const Register = (props) => {
                         <Text style={AuthStyles.buttonText}>Register</Text>
                     </TouchableOpacity>
                     <View style={AuthStyles.registerContainer2}>
-                        <Text onPress={() => props.navigation.navigate({ routeName: 'Auth' })} style={AuthStyles.text3}>Already Have An Account</Text>
+                        <Text onPress={() => props.navigation.navigate('Login')} style={AuthStyles.text3}>Already Have An Account</Text>
                     </View>
                 </View>
             </ScrollView>
