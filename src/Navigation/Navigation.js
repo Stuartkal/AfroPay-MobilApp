@@ -7,12 +7,12 @@ import Auth from '../Screens/Auth/Auth'
 import Register from '../Screens/Auth/Register'
 import Home, { screenOptions as homeOptions } from '../Screens/Home/Home'
 import Payments, { screenOptions as paymentOptions } from '../Screens/Payments/Payments'
-import QRCode from '../Screens/QRCode/QRCodeScan'
+import QRCode, { screenOptions as qrcodeOptions } from '../Screens/QRCode/QRCodeScan'
 import confirmPayment from '../Screens/Confirm/ConfirmPayment'
 import Help from '../Screens/SideDrawer/Help'
 import Settings from '../Screens/SideDrawer/Settings'
-import Profile from '../Screens/SideDrawer/Profile'
-
+import Profile from '../Screens/Profile/Profile'
+import SplashScreen from './SplashScreen'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -38,6 +38,8 @@ export const AppNavigation = () => {
             <StackNavigation.Screen name="Payments" component={Payments} />
             <StackNavigation.Screen name="confirmPayment" component={confirmPayment} />
             <StackNavigation.Screen name="QRCode" component={QRCode} />
+            <StackNavigation.Screen name="Profile" component={Profile} />
+            <StackNavigation.Screen name="Login" component={Auth} options={{ headerShown: false }} />
         </StackNavigation.Navigator>
     )
 }
@@ -66,7 +68,7 @@ const QRCodeScan = () => {
     }
     return (
         <StackNavigation.Navigator screenOptions={defaultOptions}>
-            <StackNavigation.Screen name="QRCode" component={QRCode} />
+            <StackNavigation.Screen name="QRCode" component={QRCode} options={qrcodeOptions} />
         </StackNavigation.Navigator>
     )
 }
@@ -100,8 +102,11 @@ export const AppTabNavigation = () => {
 }
 
 export const Authentication = () => {
+
+
     return (
-        <StackNavigation.Navigator>
+        <StackNavigation.Navigator screenOptions={{ animationEnabled: false }}>
+            <StackNavigation.Screen name="Splash" component={SplashScreen} options={{ headerShown: false }} />
             <StackNavigation.Screen name="Login" component={Auth} options={{ headerShown: false }} />
             <StackNavigation.Screen name="Register" component={Register} options={{ headerShown: false }} />
             <StackNavigation.Screen name="Home" component={AppTabNavigation} />

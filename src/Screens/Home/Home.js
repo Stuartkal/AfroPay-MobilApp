@@ -19,9 +19,6 @@ const Home = () => {
     const [openSend, setSendOpen] = useState(false)
     const [openWithdraw, setWithdrawOpen] = useState(false)
 
-    const handleOpen = () => {
-        setOpen(true)
-    }
 
     const balance = useSelector(state => state.auth._balance)
     const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -69,21 +66,15 @@ const Home = () => {
 }
 
 export const screenOptions = (navData) => {
-    // console.log(navData, 'dd')
-    const dispatch = useDispatch()
 
-    const logout = () => {
-        dispatch(actionCreators.logout())
-        navData.navigation.navigate('Login')
-    }
 
     return {
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={HeaderBtn}>
                 <Item
                     title="profile"
-                    iconName="log-in-outline"
-                    onPress={logout}
+                    iconName="person-outline"
+                    onPress={() => navData.navigation.navigate('Profile')}
                 />
             </HeaderButtons>
         )
