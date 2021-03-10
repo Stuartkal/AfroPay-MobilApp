@@ -5,6 +5,9 @@ import Styles from './Styles'
 const Withdraw = ({ withdrawals }) => {
     return (
         <View>
+            <View style={Styles.headerRow}>
+                <Text style={Styles.headerTxt}>Withdrawals</Text>
+            </View>
             {withdrawals.map(withdrawal => (
                 <View style={Styles.recieptRow} key={withdrawal.id}>
                     <View style={Styles.recentRow2}>
