@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Auth from '../Screens/Auth/Auth'
 import Register from '../Screens/Auth/Register'
 import Home, { screenOptions as homeOptions } from '../Screens/Home/Home'
-import Payments from '../Screens/Payments/Payments'
+import Payments, { screenOptions as paymentOptions } from '../Screens/Payments/Payments'
 import QRCode from '../Screens/QRCode/QRCodeScan'
 import confirmPayment from '../Screens/Confirm/ConfirmPayment'
 import Help from '../Screens/SideDrawer/Help'
@@ -44,16 +44,28 @@ export const AppNavigation = () => {
 
 
 const Payment = () => {
+    const defaultOptions = {
+        headerTitleStyle: {
+            fontSize: 25
+        },
+        headerTintColor: Color.primary,
+    }
     return (
-        <StackNavigation.Navigator>
-            <StackNavigation.Screen name="Payments" component={Payments} />
+        <StackNavigation.Navigator screenOptions={defaultOptions}>
+            <StackNavigation.Screen name="Payments" component={Payments} options={paymentOptions} />
         </StackNavigation.Navigator>
     )
 }
 
 const QRCodeScan = () => {
+    const defaultOptions = {
+        headerTitleStyle: {
+            fontSize: 25
+        },
+        headerTintColor: Color.primary,
+    }
     return (
-        <StackNavigation.Navigator>
+        <StackNavigation.Navigator screenOptions={defaultOptions}>
             <StackNavigation.Screen name="QRCode" component={QRCode} />
         </StackNavigation.Navigator>
     )

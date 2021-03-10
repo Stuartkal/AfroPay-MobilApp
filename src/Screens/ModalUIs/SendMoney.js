@@ -1,31 +1,102 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Ripple from 'react-native-material-ripple'
+import { useSelector, useDispatch } from 'react-redux'
 import { TextInput, Text, View, Modal, KeyboardAvoidingView } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import SelectModal from './SelectModal'
+import ConfirmTransfer from '../Confirmation/ConfirmTransfer'
+import * as actionCreators from '../../store/ActionCreators'
 
 import Color from '../../constants/Color'
 import Styles from './Styles'
-const SendMoney = () => {
+const SendMoney = ({ visible, setOpen }) => {
+
+    const [sending_option_id, setSending_option_id] = useState('')
+    const [receiver_id, setReceiver_id] = useState('')
+    const [amount, setAmount] = useState('')
+    const [phone, setPhone] = useState('')
+    const [remarks, setRemarks] = useState('')
+    const [error, setError] = useState('')
+
+    const balance = useSelector(state => state.auth._balance)
+    const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+    const [openSendConfrimModal, setOpenSendConfrimModal] = useState(false)
+    const [show, setShow] = useState(false)
+
+    useEffect(() => {
+        if (amount >= 1) {
+            setError('')
+        }
+    }, [amount])
+
+    const dispatch = useDispatch()
+
+    const handleSendMoneySubmit = () => {
+        dispatch(actionCreators.sendMoney(sending_option_id, receiver_id, amount, phone, remarks, (res) => {
+            if (sending_option_id.length < 1 || receiver_id < 1 || amount < 3 || phone < 10 || remarks < 1) {
+                setError('Invalid input, enter all fields')
+            }
+            if (sending_option_id.length >= 1 || receiver_id >= 1 || amount >= 3 || phone === 10 || remarks >= 1) {
+                if (res.success === false) {
+                    return setError('User Not Found')
+                }
+                if (amount.localeCompare(balance) === 0) {
+                    return setError('You have insuficient balance to make transfer')
+                }
+                setOpenSendConfrimModal(true)
+                setSending_option_id('')
+                setReceiver_id('')
+                setAmount('')
+                setPhone('')
+                setRemarks('')
+            }
+
+        }))
+    }
+
+    const handleMTNSubmit = () => {
+        setSending_option_id('1')
+        setShow(false)
+    }
+
+    const handleAirtelSubmit = () => {
+        setSending_option_id('2')
+        setShow(false)
+    }
+
+    const handleAfroPaySubmit = () => {
+        setSending_option_id('3')
+        setShow(false)
+    }
+
     return (
         <KeyboardAvoidingView behavior="height">
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={true}
+                visible={visible}
             >
 
-                <SelectModal>
+                <ConfirmTransfer
+                    visible={openSendConfrimModal}
+                    setOpenSendConfrimModal={setOpenSendConfrimModal}
+                />
+
+                <SelectModal visible={show} close={setShow}>
                     <View style={Styles.confirmHeader}>
                         <Text style={Styles.headerTxt}>Choose Payment Method</Text>
                     </View>
-                    <Ripple style={Styles.paymentBtn}>
+                    <Ripple onPress={handleMTNSubmit} style={Styles.paymentBtn}>
                         <Text style={Styles.btnTxt}>MTN Mobile Money</Text>
                     </Ripple>
-                    <Ripple style={Styles.paymentBtn}>
+                    <Ripple onPress={handleAirtelSubmit} style={Styles.paymentBtn}>
                         <Text style={Styles.btnTxt}>Airtel Money</Text>
+                    </Ripple>
+                    <Ripple onPress={handleAfroPaySubmit} style={Styles.paymentBtn}>
+                        <Text style={Styles.btnTxt}>Afropay</Text>
                     </Ripple>
                 </SelectModal>
 
@@ -33,8 +104,11 @@ const SendMoney = () => {
                     <View style={Styles.container3}>
                         <View style={Styles.header2}>
                             <View style={Styles.headerInner}>
-                                <Ionicons name="close" size={30} color={Color.primary} />
-                                <Text style={Styles.headerTxt2}>Send Money</Text>
+                                <Ionicons onPress={() => setOpen(false)} name="close" size={30} color={Color.primary} />
+                                {
+                                    error ? <Text style={{ color: 'red', fontSize: 18 }}>{error}</Text>
+                                        : <Text style={Styles.headerTxt2}>Send Money</Text>
+                                }
 
                                 <View style={{ width: 30 }} />
                             </View>
@@ -46,16 +120,18 @@ const SendMoney = () => {
                                 style={Styles.input2}
                                 placeholder="1000"
                                 keyboardType="decimal-pad"
+                                onChangeText={(e) => setAmount(e)}
                             // autoFocus={true}
                             />
                         </View>
-                        <Text style={{ color: Color.txtFaint, fontSize: 14 }}>Avalilable Balance: 0Shs</Text>
+                        <Text style={{ color: Color.txtFaint, fontSize: 14 }}>Avalilable Balance: {_balance}</Text>
                         <View style={Styles.inputRow2}>
                             <MaterialIcons style={{ marginRight: 10 }} name="phone-iphone" size={40} color="#fff" color={Color.primary} />
                             <TextInput
                                 style={Styles.input2}
                                 placeholder="075--/070--/078--/077--"
                                 keyboardType="decimal-pad"
+                                onChangeText={(e) => setPhone(e)}
                             // autoFocus={true}
                             />
                         </View>
@@ -65,6 +141,7 @@ const SendMoney = () => {
                                 style={Styles.input2}
                                 placeholder="Receiver Id"
                                 keyboardType="decimal-pad"
+                                onChangeText={(e) => setReceiver_id(e)}
                             // autoFocus={true}
                             />
                         </View>
@@ -74,16 +151,18 @@ const SendMoney = () => {
                                 style={Styles.input2}
                                 placeholder="Remarks"
                                 returnKeyType="done"
+                                onChangeText={(e) => setRemarks(e)}
                             // autoFocus={true}
+
                             />
                         </View>
                         <View style={Styles.methodContainer}>
-                            <Ripple style={Styles.methodRow}>
+                            <Ripple onPress={() => setShow(true)} style={Styles.methodRow}>
                                 <MaterialIcons style={{ marginRight: 10 }} name="payment" size={40} color="#fff" />
                                 <Text style={{ color: '#fff', fontSize: 18 }}>Choose Payment Method</Text>
                             </Ripple>
                         </View>
-                        <Ripple activeOpacity={0.8} style={Styles.buttonContainer2}>
+                        <Ripple onPress={handleSendMoneySubmit} activeOpacity={0.8} style={Styles.buttonContainer2}>
                             <Text style={Styles.buttonText2}>Send Money</Text>
                         </Ripple>
                     </View>
