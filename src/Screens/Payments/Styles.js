@@ -33,9 +33,10 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
         // justifyContent: 'center',
         flexDirection: 'column',
+        backgroundColor: 'red',
         marginVertical: 20,
         width: '100%',
-        height: 500,
+        height: 450,
         elevation: 1,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -46,11 +47,11 @@ const Styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     recieptRow: {
-        width: '80%',
+        width: '85%',
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        marginVertical: 10
+        marginVertical: 10,
     },
     recentRow2: {
         alignItems: 'flex-start',
@@ -77,6 +78,17 @@ const Styles = StyleSheet.create({
     recentTxt3: {
         fontSize: Dimensions.get('window').width < 800 ? 25 : 18,
         color: Color.secondary
+    },
+    headerTxt: {
+        fontSize: 20,
+        color: Color.primary,
+        paddingVertical: 5
+    },
+    headerRow: {
+        width: '90%',
+        alignItems: 'flex-start',
+        borderBottomWidth: 1,
+        borderBottomColor: Color.txtFaint
     }
 
 })
