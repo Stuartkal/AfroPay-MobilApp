@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, ScrollView, Dimensions } from 'react-native'
+import { View, Text, ScrollView, Dimensions, ActivityIndicator } from 'react-native'
 import Deposit from './Deposit'
 import SendMoney from './SendMoney'
 import Withdraw from './Withdraw'
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as actionCreators from '../../store/ActionCreators'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderBtn from '../../Navigation/HeaderBtn'
+import loader from '../../../assets/images/35.svg'
 
 import Styles from './Styles'
 const Payments = () => {
@@ -38,22 +39,13 @@ const Payments = () => {
             <Text style={Styles.label3}>Your available AfroPay balance</Text>
             <View style={Styles.paymentHistory}>
                 <ScrollView contentContainerStyle={{ width: screenWidth }} showsVerticalScrollIndicator={false} >
-                    {deposits ? (
+                    {deposits.length <= 0 ? <ActivityIndicator size="large" color="#6dae1e" /> : (
                         <View>
-                            <View style={Styles.headerRow}>
-                                <Text style={Styles.headerTxt}>Deposits</Text>
-                            </View>
                             <Deposit deposits={deposits} />
-                            <View style={Styles.headerRow}>
-                                <Text style={Styles.headerTxt}>Transfers</Text>
-                            </View>
                             <SendMoney transfers={transfers} />
-                            <View style={Styles.headerRow}>
-                                <Text style={Styles.headerTxt}>Withdrawals</Text>
-                            </View>
                             <Withdraw withdrawals={withdrawals} />
                         </View>
-                    ) : <Text>Loading....</Text>}
+                    )}
                 </ScrollView>
             </View>
         </View>
