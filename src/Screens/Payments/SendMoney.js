@@ -7,6 +7,9 @@ const SendMoney = ({ transfers }) => {
 
     return (
         <View>
+            <View style={Styles.headerRow}>
+                <Text style={Styles.headerTxt}>Transfers</Text>
+            </View>
             {transfers.map(transfer => (
                 <View style={Styles.recieptRow} key={transfer.id}>
                     <View style={Styles.recentRow2}>
