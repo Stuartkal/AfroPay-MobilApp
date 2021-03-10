@@ -16,7 +16,6 @@ const Deposit = ({ visible, setOpen }) => {
     const [phone, setPhone] = useState('')
     const [payment_method_id, setPayment_method_id] = useState('')
     const [error, setError] = useState('')
-    console.log(payment_method_id, 'fk')
 
     const [openDepositConfrimModal, setOpenDepositConfrimModal] = useState(false)
     const [show, setShow] = useState(false)

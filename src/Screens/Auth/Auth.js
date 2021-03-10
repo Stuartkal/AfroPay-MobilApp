@@ -9,7 +9,7 @@ import Color from '../../constants/Color'
 import AuthStyles from './AuthStyles'
 
 const Auth = (props) => {
-    console.log(props, 'kol')
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 

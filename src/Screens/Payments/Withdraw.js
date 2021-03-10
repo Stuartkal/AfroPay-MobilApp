@@ -13,7 +13,7 @@ const Withdraw = ({ withdrawals }) => {
                     </View>
                     <View style={Styles.recentRow2} >
                         <Text style={Styles.recentTxt2}>UGX</Text>
-                        <Text style={Styles.recentTxt3}>+{withdrawal.amount}</Text>
+                        <Text style={Styles.recentTxt3}>-{withdrawal.amount}</Text>
                     </View>
                 </View>
             ))

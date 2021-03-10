@@ -12,7 +12,7 @@ const Styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        marginTop: 20
+        marginTop: 20,
     },
 
     label1: {
@@ -21,22 +21,22 @@ const Styles = StyleSheet.create({
     label2: {
         fontSize: 25,
         fontWeight: 'bold',
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+        color: Color.secondary
     },
     label3: {
         color: Color.txtFaint,
         fontSize: 15
     },
     paymentHistory: {
-        marginTop: 40,
-        paddingVertical: 10,
+        marginTop: 20,
+        padding: 10,
         alignItems: 'center',
-        // justifyContent: 'center',
+        justifyContent: 'center',
         flexDirection: 'column',
-        backgroundColor: 'red',
         marginVertical: 20,
         width: '100%',
-        height: 450,
+        height: 460,
         elevation: 1,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -47,7 +47,7 @@ const Styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     recieptRow: {
-        width: '85%',
+        width: '90%',
         alignItems: 'center',
         justifyContent: 'space-between',
         flexDirection: 'row',
