@@ -7,9 +7,9 @@ const SelectModal = (props) => {
         <Modal
             animationType="slide"
             transparent={true}
-            visible={true}
+            visible={props.visible}
         >
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => props.close(false)}>
                 <View style={Styles.selectContainer}>
                     <View style={Styles.selectModal}>
                         {props.children}
