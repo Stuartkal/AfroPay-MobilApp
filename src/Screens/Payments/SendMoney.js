@@ -1,8 +1,10 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import moment from 'moment'
 
 import Styles from './Styles'
 const SendMoney = ({ transfers }) => {
+
     return (
         <View>
             {transfers.map(transfer => (
@@ -13,7 +15,7 @@ const SendMoney = ({ transfers }) => {
                     </View>
                     <View style={Styles.recentRow2} >
                         <Text style={Styles.recentTxt2}>UGX</Text>
-                        <Text style={Styles.recentTxt3}>+{transfer.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
+                        <Text style={Styles.recentTxt3}>-{transfer.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Text>
                     </View>
                 </View>
             ))

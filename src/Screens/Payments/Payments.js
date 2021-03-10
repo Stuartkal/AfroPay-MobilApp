@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, Dimensions } from 'react-native'
 import Deposit from './Deposit'
 import SendMoney from './SendMoney'
 import Withdraw from './Withdraw'
@@ -11,11 +11,13 @@ import HeaderBtn from '../../Navigation/HeaderBtn'
 import Styles from './Styles'
 const Payments = () => {
 
+    const screenWidth = Dimensions.get('window').width;
+
     const balance = useSelector(state => state.auth._balance)
     const deposits = useSelector(state => state.receipts.deposites)
     const withdrawals = useSelector(state => state.receipts.withdrawals)
     const transfers = useSelector(state => state.receipts.transfers)
-    console.log('withdrawals', withdrawals)
+    // console.log('withdrawals', withdrawals)
 
     const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
@@ -35,19 +37,23 @@ const Payments = () => {
             </View>
             <Text style={Styles.label3}>Your available AfroPay balance</Text>
             <View style={Styles.paymentHistory}>
-                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ alignItems: 'center' }}>
-                    <View style={Styles.headerRow}>
-                        <Text style={Styles.headerTxt}>Deposits</Text>
-                    </View>
-                    <Deposit deposits={deposits} />
-                    <View style={Styles.headerRow}>
-                        <Text style={Styles.headerTxt}>Transfers</Text>
-                    </View>
-                    <SendMoney transfers={transfers} />
-                    <View style={Styles.headerRow}>
-                        <Text style={Styles.headerTxt}>Withdrawals</Text>
-                    </View>
-                    <Withdraw withdrawals={withdrawals} />
+                <ScrollView contentContainerStyle={{ width: screenWidth }} showsVerticalScrollIndicator={false} >
+                    {deposits ? (
+                        <View>
+                            <View style={Styles.headerRow}>
+                                <Text style={Styles.headerTxt}>Deposits</Text>
+                            </View>
+                            <Deposit deposits={deposits} />
+                            <View style={Styles.headerRow}>
+                                <Text style={Styles.headerTxt}>Transfers</Text>
+                            </View>
+                            <SendMoney transfers={transfers} />
+                            <View style={Styles.headerRow}>
+                                <Text style={Styles.headerTxt}>Withdrawals</Text>
+                            </View>
+                            <Withdraw withdrawals={withdrawals} />
+                        </View>
+                    ) : <Text>Loading....</Text>}
                 </ScrollView>
             </View>
         </View>
@@ -55,21 +61,14 @@ const Payments = () => {
 }
 
 export const screenOptions = (navData) => {
-    // console.log(navData, 'dd')
-    const dispatch = useDispatch()
-
-    const logout = () => {
-        dispatch(actionCreators.logout())
-        navData.navigation.navigate('Login')
-    }
 
     return {
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={HeaderBtn}>
                 <Item
                     title="profile"
-                    iconName="log-in-outline"
-                    onPress={logout}
+                    iconName="person-outline"
+                    onPress={() => navData.navigation.navigate('Profile')}
                 />
             </HeaderButtons>
         )

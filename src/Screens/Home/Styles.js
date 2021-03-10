@@ -37,7 +37,8 @@ const Styles = StyleSheet.create({
     label2: {
         fontSize: 25,
         fontWeight: 'bold',
-        paddingHorizontal: 5
+        paddingHorizontal: 5,
+        color: Color.secondary
     },
     label3: {
         color: Color.txtFaint

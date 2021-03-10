@@ -4,7 +4,7 @@ import { View, Text } from 'react-native'
 import Styles from './Styles'
 const Deposit = ({ deposits }) => {
     return (
-        <View>
+        <View >
             {deposits.map(deposit => (
                 <View style={Styles.recieptRow} key={deposit.id}>
                     <View style={Styles.recentRow2}>
