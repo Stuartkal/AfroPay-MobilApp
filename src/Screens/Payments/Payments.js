@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as actionCreators from '../../store/ActionCreators'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderBtn from '../../Navigation/HeaderBtn'
-import loader from '../../../assets/images/35.svg'
+
 
 import Styles from './Styles'
 const Payments = () => {

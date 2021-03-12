@@ -29,14 +29,16 @@ const Styles = StyleSheet.create({
         fontSize: 15
     },
     paymentHistory: {
+        flexGrow: 1,
         marginTop: 20,
         padding: 10,
+        paddingBottom: 50,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
         marginVertical: 20,
         width: '100%',
-        height: 460,
+        // height: Dimensions.get('window').height > 800 ? 700 : 460,
         elevation: 1,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,

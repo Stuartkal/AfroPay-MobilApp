@@ -129,6 +129,8 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
+        missingDimensionStrategy 'react-native-camera', 'general'
         applicationId "com.afropayapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -181,6 +183,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-camera')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
