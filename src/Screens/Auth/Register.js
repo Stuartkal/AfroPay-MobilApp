@@ -67,7 +67,7 @@ const Register = (props) => {
             else {
                 setSuccessMessage('User Registered Successfully!')
                 setTimeout(() => {
-                    props.navigation.navigate({ routeName: 'Auth' })
+                    props.navigation.navigate('Login')
                 }, 2000)
             }
         }))

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppRegistry, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -7,7 +7,12 @@ import Styles from '../ModalUIs/Styles';
 
 const QRCodeScan = () => {
 
+
     const [barCodeData, setBarCodeData] = useState('')
+
+    useEffect(() => {
+        setBarCodeData('')
+    }, [])
 
     const camera = React.useRef()
 
