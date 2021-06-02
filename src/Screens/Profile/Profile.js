@@ -20,6 +20,10 @@ const Profile = (props) => {
         props.navigation.navigate('Login')
     }
 
+    const barcodeGenerateHandler = () => {
+        props.navigation.navigate('Barcode')
+    }
+
     return (
         <View style={Styles.profileContainer}>
             <ScrollView contentContainerStyle={{ alignItems: 'center', width: screenWidth }} showsVerticalScrollIndicator={false}>
@@ -34,6 +38,10 @@ const Profile = (props) => {
                     </View>
                 </View>
                 <View style={Styles.profile}>
+                    <Ripple onPress={barcodeGenerateHandler} style={Styles.content2}>
+                        <Text style={Styles.proflabel2}>Generate Barcode</Text>
+                        <Ionicons name="chevron-forward-outline" size={20} color={Color.txtFaint} />
+                    </Ripple>
                     <Ripple style={Styles.content2}>
                         <Text style={Styles.proflabel2}>Help</Text>
                         <Ionicons name="chevron-forward-outline" size={20} color={Color.txtFaint} />

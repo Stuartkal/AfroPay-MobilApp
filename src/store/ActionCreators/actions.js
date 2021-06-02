@@ -14,3 +14,5 @@ export const REMOVE_USER = 'REMOVE_USER'
 
 export const LOADING_ACTION = 'LOADING_ACTION'
 export const ERROR_ACTION = 'ERROR_ACTION'
+
+export const SET_BARCODE = 'SET_BARCODE'
