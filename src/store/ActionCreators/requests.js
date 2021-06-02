@@ -305,3 +305,31 @@ export const qrcodeScan = () => {
             })
     }
 }
+
+export const setBarcode = (link) => {
+    return {
+        type: actionTypes.SET_BARCODE,
+        link
+    }
+}
+
+export const generateBarcode = (callback) => {
+    return dispatch => {
+
+        const data = {
+            _id: '3',
+            name: 'Kalema Stuart',
+            phoneNumber: '0706792740'
+        }
+
+        axios.get(`http://api.qrserver.com/v1/create-qr-code/?data=${data}&size=100x100`)
+            .then(res => {
+                // console.log(res.config.url)
+                dispatch(setBarcode(res.config.url))
+                callback({ success: true, res })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+}
