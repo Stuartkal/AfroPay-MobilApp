@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { View, Text, ScrollView, Dimensions } from 'react-native'
+import { View, Text, ScrollView, Dimensions, Alert } from 'react-native'
 import Ripple from 'react-native-material-ripple'
 import MaterialIons from 'react-native-vector-icons/MaterialIcons'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'

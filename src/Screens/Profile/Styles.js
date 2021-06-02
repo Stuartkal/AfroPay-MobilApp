@@ -90,6 +90,33 @@ const Styles = StyleSheet.create({
         color: Color.primary,
         fontSize: 18,
         marginRight: 5
+    },
+    generateButton: {
+        width: '50%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: Color.secondary,
+        height: 40
+    },
+    barcodeContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    btnTxt: {
+        color: '#fff',
+        fontSize: 18
+    },
+    label: {
+        fontSize: 25,
+        textAlign: 'center',
+        color: Color.txtFaint,
+        marginBottom: 40
+    },
+    image: {
+        width: 300,
+        height: 300,
+        resizeMode: 'contain'
     }
 })
 

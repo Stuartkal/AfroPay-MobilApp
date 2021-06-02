@@ -43,12 +43,6 @@ const QRCodeScan = () => {
                     setBarCodeData(data)
                 }}
             />
-            {barCodeData ? (
-                <View style={{ alignSelf: 'center', position: 'absolute', top: 100, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center', width: '60%', height: 100 }}>
-                    <Text style={Styles.barcodeText1}>BarCode Data</Text>
-                    <Text style={Styles.barcodeText}>{barCodeData}</Text>
-                </View>
-            ) : null}
         </View>
     )
 }

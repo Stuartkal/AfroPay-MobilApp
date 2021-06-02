@@ -11,12 +11,13 @@ import QRCode, { screenOptions as qrcodeOptions } from '../Screens/QRCode/QRCode
 import confirmPayment from '../Screens/Confirm/ConfirmPayment'
 import Help from '../Screens/SideDrawer/Help'
 import Settings from '../Screens/SideDrawer/Settings'
+import Barcode from '../Screens/Profile/Barcode'
+import GeneratedBarCode from '../Screens/Profile/GeneratedBarCode'
 import Profile from '../Screens/Profile/Profile'
 import SplashScreen from './SplashScreen'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Feather from 'react-native-vector-icons/Feather'
+
 
 import Color from '../constants/Color'
 import Styles from './Styles'
@@ -39,6 +40,8 @@ export const AppNavigation = () => {
             <StackNavigation.Screen name="confirmPayment" component={confirmPayment} />
             <StackNavigation.Screen name="QRCode" component={QRCode} />
             <StackNavigation.Screen name="Profile" component={Profile} />
+            <StackNavigation.Screen name="Barcode" component={Barcode} />
+            <StackNavigation.Screen name="GeneratedBarCode" component={GeneratedBarCode} />
             <StackNavigation.Screen name="Login" component={Auth} options={{ headerShown: false }} />
         </StackNavigation.Navigator>
     )
