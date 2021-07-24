@@ -1,3 +1,16 @@
-export { login, register, logout } from './auth'
-export { getActivities, deposit, sendMoney, withdraw, withdrawApproval, withdrawCancel, qrcodeScan, generateBarcode } from './requests'
-export { withdrawReceipts, depositReceipts, transferReceipts } from './receipts'
+export { login, logout, register } from './auth';
+export {
+  depositReceipts,
+  transferReceipts,
+  withdrawReceipts,
+} from './receipts';
+export {
+  deposit,
+  generateBarcode,
+  getActivities,
+  qrcodeScan,
+  sendMoney,
+  withdraw,
+  withdrawApproval,
+  withdrawCancel,
+} from './requests';
