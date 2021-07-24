@@ -5,7 +5,6 @@ import Styles from './Styles';
 
 const GeneratedBarCode = () => {
   const link = useSelector((state) => state.activities.link);
-  console.log(link, 'damn');
 
   return (
     <View style={Styles.barcodeContainer}>

@@ -3,13 +3,16 @@ import { Alert, Dimensions, ScrollView, Text, View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import MaterialIons from 'react-native-vector-icons/MaterialIcons';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import Color from '../../constants/Color';
 import HeaderBtn from '../../Navigation/HeaderBtn';
 import Deposit from '../ModalUIs/Deposit';
 import SendMoney from '../ModalUIs/SendMoney';
 import Withdraw from '../ModalUIs/Withdraw';
 import Styles from './Styles';
+
+const mapState = ({ wallet }) => ({ wallet });
+const connector = connect(mapState);
 
 const Home = () => {
   const screenWidth = Dimensions.get('window').width;
@@ -18,9 +21,8 @@ const Home = () => {
   const [openSend, setSendOpen] = useState(false);
   const [openWithdraw, setWithdrawOpen] = useState(false);
 
-  const balance = useSelector((state) => state.auth._balance);
+  const balance = useSelector(({ wallet }) => wallet.balance);
   const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  // console.log(balance, 'money')
 
   return (
     <View style={Styles.homeContainer}>
@@ -90,4 +92,4 @@ export const screenOptions = (navData) => {
   };
 };
 
-export default Home;
+export default connector(Home);

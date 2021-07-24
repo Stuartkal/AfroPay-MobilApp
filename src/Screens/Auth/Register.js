@@ -14,16 +14,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useDispatch } from 'react-redux';
 import logo1 from '../../../assets/images/logo.png';
 import Color from '../../constants/Color';
-import * as actionCreators from '../../store/ActionCreators';
+import { register } from '../../store/ActionCreators';
 import AuthStyles from './AuthStyles';
 
 const Register = (props) => {
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [role, setRole] = useState('');
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
 
@@ -43,7 +41,7 @@ const Register = (props) => {
   if (password.length < 8) {
     password_strength = (
       <Text style={{ color: 'red' }}>
-        Password is too weak must be atleast 8 characters
+        Password is too weak must be at least 8 characters
       </Text>
     );
   }
@@ -58,44 +56,41 @@ const Register = (props) => {
     }
 
     if (phoneReg_expression.test(phone) === false) {
-      return setError('Phone Number is inavlid');
+      return setError('Phone Number is invalid');
     }
 
     if (password.length < 8) {
-      return setError('Password is too weak must be atleast 8 characters');
+      return setError('Password is too weak must be at least 8 characters');
     }
 
     if (password.localeCompare(password_confirmation) !== 0) {
-      return setError('Passwords dont match');
+      return setError("Passwords don't match");
     }
 
-    setName(fname + ' ' + lname);
-    dispatch(
-      actionCreators.register(
-        name,
-        email,
-        phone,
-        role,
-        password,
-        password_confirmation,
-        (res) => {
-          if (res.success === false) {
-            setError('User Id already Exists, or one of the fields is invalid');
-          } else {
-            setSuccessMessage('User Registered Successfully!');
-            setTimeout(() => {
-              props.navigation.navigate('Login');
-            }, 2000);
+    const fields = [
+      'firstName',
+      'lastName',
+      'email',
+      'role',
+      'password',
+      'phoneNumber',
+    ];
+
+    const handleError = (err) => {
+      if (err.includes('ReqValidationError')) {
+        for (let field of fields) {
+          if (err.includes(field)) {
+            return setError(`Invalid ${field}`);
           }
-        },
-      ),
-    );
-    // setEmail(''),
-    // setName(''),
-    // setPhone(''),
-    // setRole(''),
-    // setPassword(''),
-    // setPasswordConfirmation('')
+        }
+      } else {
+        setError(err);
+      }
+    };
+
+    dispatch(
+      register(fname, lname, email, `+256${phone.substr(1)}`, password),
+    ).then(() => props.navigation.navigate('Login'), handleError);
   };
 
   return (
@@ -149,21 +144,6 @@ const Register = (props) => {
               style={AuthStyles.input}
               value={phone}
               onChangeText={(e) => setPhone(e)}
-              returnKeyType="next"
-              keyboardType="numeric"
-            />
-          </View>
-          <View style={AuthStyles.inputRow}>
-            <MaterialCommunityIcons
-              name="account-cog-outline"
-              size={24}
-              color={Color.primary}
-            />
-            <TextInput
-              placeholder="Role"
-              style={AuthStyles.input}
-              value={role}
-              onChangeText={(e) => setRole(e)}
               returnKeyType="next"
               keyboardType="numeric"
             />

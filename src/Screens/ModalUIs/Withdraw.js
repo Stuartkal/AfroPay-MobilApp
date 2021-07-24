@@ -20,7 +20,6 @@ import Styles from './Styles';
 const Withdraw = ({ visible, setOpen }) => {
   const [amount, setAmount] = useState('');
   const [agent_id, setAgent_id] = useState('');
-  // console.log(amount, agent_id, 'mimi')
 
   // eslint-disable-next-line prettier/prettier
   const [openWithdrawConfirmModal, setOpenWithdrawConfirmModal] =
@@ -42,7 +41,6 @@ const Withdraw = ({ visible, setOpen }) => {
   const handleWithdrawSubmit = () => {
     dispatch(
       actionCreators.withdraw(amount, agent_id, (res) => {
-        // console.log('status', res.success)
         if (res.success === true) {
           setShow(true);
           setError('');

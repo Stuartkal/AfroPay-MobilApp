@@ -15,3 +15,18 @@ export const LOADING_ACTION = 'LOADING_ACTION';
 export const ERROR_ACTION = 'ERROR_ACTION';
 
 export const SET_BARCODE = 'SET_BARCODE';
+
+export const SET_TOKEN = 'SET_TOKEN';
+export const REMOVE_TOKEN = 'REMOVE_TOKEN';
+
+// PROFILE
+export const SET_PROFILE = 'SET_PROFILE';
+export const REMOVE_PROFILE = 'REMOVE_PROFILE';
+
+// AUTH
+export const LOG_IN = 'LOG_IN';
+export const LOG_OUT = 'LOG_OUT';
+
+// WALLET
+export const SET_WALLET = 'SET_WALLET';
+export const REMOVE_WALLET = 'REMOVE_WALLET';
