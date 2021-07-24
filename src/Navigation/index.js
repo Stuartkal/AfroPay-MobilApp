@@ -1,19 +1,17 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native';
-import { AppTabNavigation, Authentication } from './Navigation'
-import Auth from '../Screens/Auth/Auth'
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { AppTabNavigation, Authentication } from './Navigation';
 
-const index = () => {
+const Index = () => {
+  const auth = useSelector((state) => state.auth.authenticated);
 
-    const auth = useSelector(state => state.auth.authenticated)
+  return (
+    <NavigationContainer>
+      {!auth && <Authentication />}
+      {auth && <AppTabNavigation />}
+    </NavigationContainer>
+  );
+};
 
-    return (
-        <NavigationContainer>
-            {!auth && <Authentication />}
-            {auth && <AppTabNavigation />}
-        </NavigationContainer>
-    )
-}
-
-export default index
+export default Index;
