@@ -70,6 +70,7 @@ function setAuthToken(token) {
 }
 
 const setProfile = (profile) => ({ type: actions.SET_PROFILE, data: profile });
+const setWallet = (wallet) => ({ type: actions.SET_WALLET, data: wallet });
 
 export const register =
   (firstName, lastName, email, phoneNumber, password) =>
@@ -94,7 +95,8 @@ export const register =
         },
       })
       .then((res) => {
-        dispatch(setProfile(res.data.data));
+        dispatch(setProfile(res.data.data.user));
+        dispatch(setWallet(res.data.data.wallet));
         return Promise.resolve();
       })
       .catch((err) => {
