@@ -1,12 +1,12 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import { DrawerItems } from "react-navigation";
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { DrawerItems } from 'react-navigation';
 
 export const CustomDrawerNavigator = (props) => (
   <View style={[styles.container]}>
     <DrawerItems
-      activeBackgroundColor={"black"}
-      activeTintColor={"white"}
+      activeBackgroundColor={'black'}
+      activeTintColor={'white'}
       iconContainerStyle={styles.icons}
       {...props}
     />
@@ -15,10 +15,10 @@ export const CustomDrawerNavigator = (props) => (
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
 
   icons: {
-    width: 30
-  }
+    width: 30,
+  },
 });
