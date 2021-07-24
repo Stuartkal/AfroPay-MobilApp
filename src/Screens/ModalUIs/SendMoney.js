@@ -26,10 +26,10 @@ const SendMoney = ({ visible, setOpen }) => {
   const [remarks, setRemarks] = useState('');
   const [error, setError] = useState('');
 
-  const balance = useSelector((state) => state.auth._balance);
+  const balance = useSelector(({ wallet }) => wallet.balance);
   const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-  const [openSendConfrimModal, setOpenSendConfrimModal] = useState(false);
+  const [openSendConfirmModal, setOpenSendConfirmModal] = useState(false);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -69,9 +69,9 @@ const SendMoney = ({ visible, setOpen }) => {
               return setError('User Not Found');
             }
             if (amount.localeCompare(balance) === 0) {
-              return setError('You have insuficient balance to make transfer');
+              return setError('You have insufficient balance to make transfer');
             }
-            setOpenSendConfrimModal(true);
+            setOpenSendConfirmModal(true);
             setSending_option_id('');
             setReceiver_id('');
             setAmount('');
@@ -102,8 +102,8 @@ const SendMoney = ({ visible, setOpen }) => {
     <KeyboardAvoidingView behavior="height">
       <Modal animationType="slide" transparent={true} visible={visible}>
         <ConfirmTransfer
-          visible={openSendConfrimModal}
-          setOpenSendConfrimModal={setOpenSendConfrimModal}
+          visible={openSendConfirmModal}
+          setOpenSendConfirmModal={setOpenSendConfirmModal}
         />
 
         <SelectModal visible={show} close={setShow}>
@@ -152,7 +152,7 @@ const SendMoney = ({ visible, setOpen }) => {
               />
             </View>
             <Text style={{ color: Color.txtFaint, fontSize: 14 }}>
-              Avalilable Balance: {_balance}
+              Available Balance: {_balance}
             </Text>
             <View style={Styles.inputRow2}>
               <MaterialIcons

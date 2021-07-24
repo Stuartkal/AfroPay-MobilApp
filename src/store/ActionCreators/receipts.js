@@ -32,7 +32,7 @@ export const withdrawReceipts = () => {
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
 
     axios.interceptors.request.use(
       (config) => {
@@ -44,11 +44,9 @@ export const withdrawReceipts = () => {
       },
     );
 
-    // console.log('object',token)
     axios
       .get('http://165.22.196.206/api/get_withdraws')
       .then((res) => {
-        // console.log('withdrawals', res.data)
         dispatch(withdrawReceiptsAction(res.data));
       })
       .catch((err) => {
@@ -61,7 +59,7 @@ export const depositReceipts = () => {
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
 
     axios.interceptors.request.use(
       (config) => {
@@ -73,11 +71,9 @@ export const depositReceipts = () => {
       },
     );
 
-    // console.log('object',token)
     axios
       .get('http://165.22.196.206/api/get_deposits')
       .then((res) => {
-        // console.log(res.data)
         dispatch(depositReceiptsAction(res.data));
       })
       .catch((err) => {
@@ -90,7 +86,7 @@ export const transferReceipts = () => {
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
 
     axios.interceptors.request.use(
       (config) => {
@@ -102,11 +98,9 @@ export const transferReceipts = () => {
       },
     );
 
-    // console.log('object',token)
     axios
       .get('http://165.22.196.206/api/get_transfers')
       .then((res) => {
-        // console.log(res.data)
         dispatch(transferReceiptsAction(res.data));
       })
       .catch((err) => {

@@ -36,8 +36,7 @@ const QRCodeScan = () => {
         onGoogleVisionBarcodesDetected={({ barcodes }) => {
           console.log(barcodes);
         }}
-        onBarCodeRead={({ rawData, data }) => {
-          console.log(data, 'barcode');
+        onBarCodeRead={({ data }) => {
           setBarCodeData(data);
         }}
       />
