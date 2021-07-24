@@ -1,10 +1,15 @@
 import { combineReducers } from 'redux';
-import authReducer from './auth';
+import { loggedIn } from './auth';
+import { profile, wallet } from './profile';
 import receiptsReducer from './receipts';
 import requestReducer from './requests';
+import { token } from './token';
 
 export default combineReducers({
-  auth: authReducer,
+  loggedIn,
   activities: requestReducer,
   receipts: receiptsReducer,
+  token,
+  profile,
+  wallet,
 });

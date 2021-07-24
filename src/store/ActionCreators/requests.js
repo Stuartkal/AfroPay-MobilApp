@@ -19,7 +19,7 @@ export const getActivities = () => {
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
 
     axios.interceptors.request.use(
       (config) => {
@@ -31,11 +31,9 @@ export const getActivities = () => {
       },
     );
 
-    // console.log('object',token)
     axios
       .get('http://165.22.196.206/api/get_activities')
       .then((res) => {
-        // console.log(res.data)
         dispatch(activitiesSuccess(res.data));
       })
       .catch((err) => {
@@ -55,7 +53,7 @@ export const deposit = (amount, phone, payment_method_id, callback) => {
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
 
     axios.interceptors.request.use(
       (config) => {
@@ -83,13 +81,11 @@ export const deposit = (amount, phone, payment_method_id, callback) => {
     axios
       .post('http://165.22.196.206/api/deposit', data, requestOptions)
       .then((res) => {
-        // console.log(res)
         dispatch(depositAction(res.data));
         callback({ success: true, res });
       })
       .catch((err) => {
         callback({ success: false, res: err });
-        // console.log(err.message)
       });
   };
 };
@@ -112,7 +108,7 @@ export const sendMoney = (
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
 
     axios.interceptors.request.use(
       (config) => {
@@ -142,13 +138,11 @@ export const sendMoney = (
     axios
       .post('http://165.22.196.206/api/send', data, requestOptions)
       .then((res) => {
-        // console.log(res)
         dispatch(sendmoneyAction(res.data));
         callback({ success: true, res });
       })
       .catch((err) => {
         callback({ success: false, res: err });
-        // console.log(err.message)
       });
   };
 };
@@ -164,7 +158,7 @@ export const withdraw = (amount, agent_id, callback) => {
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
 
     axios.interceptors.request.use(
       (config) => {
@@ -191,13 +185,11 @@ export const withdraw = (amount, agent_id, callback) => {
     axios
       .post('http://165.22.196.206/api/withdraw', data, requestOptions)
       .then((res) => {
-        // console.log(res)
         dispatch(withdrawAction(res.data));
         callback({ success: true, res });
       })
       .catch((err) => {
         callback({ success: false, res: err });
-        // console.log(err.message)
       });
   };
 };
@@ -213,7 +205,7 @@ export const withdrawApproval = (id) => {
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
 
     axios.interceptors.request.use(
       (config) => {
@@ -225,11 +217,9 @@ export const withdrawApproval = (id) => {
       },
     );
 
-    // console.log('object',token)
     axios
       .get(`http://165.22.196.206/api/withdraws/approve/${id}`)
       .then((res) => {
-        // console.log(res.data)
         dispatch(withdrawApprovalAction(res.data));
       })
       .catch((err) => {
@@ -249,7 +239,7 @@ export const withdrawCancel = (id) => {
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
 
     axios.interceptors.request.use(
       (config) => {
@@ -261,11 +251,9 @@ export const withdrawCancel = (id) => {
       },
     );
 
-    // console.log('object',token)
     axios
       .get(`http://165.22.196.206/api/withdraws/cancel/${id}`)
       .then((res) => {
-        // console.log(res.data)
         dispatch(withdrawCancelAction(res.data));
       })
       .catch((err) => {
@@ -278,7 +266,8 @@ export const qrcodeScan = () => {
   return (dispatch, getState) => {
     dispatch(loading());
 
-    const token = getState().auth._token;
+    const { token } = getState();
+
     console.log(token, 'token');
     axios.interceptors.request.use(
       (config) => {
@@ -289,13 +278,6 @@ export const qrcodeScan = () => {
         return Promise.reject(error);
       },
     );
-
-    // let requestOptions = {
-    //     headers: {
-    //         'Content-Type': 'application/x-www-form-urlencoded',
-    //         'Accept': 'application/json'
-    //     }
-    // }
 
     const qrcode = 'qhqYRM2QTU2oSq5bYim9szv0hECfvjWMWkNqdtJqRM1Y5';
 
@@ -330,7 +312,6 @@ export const generateBarcode = (callback) => {
         `http://api.qrserver.com/v1/create-qr-code/?data=${data}&size=100x100`,
       )
       .then((res) => {
-        // console.log(res.config.url)
         dispatch(setBarcode(res.config.url));
         callback({ success: true, res });
       })

@@ -7,7 +7,6 @@ import Styles from '../ModalUIs/Styles';
 
 const ConfirmTransfer = ({ visible, setOpenSendConfrimModal }) => {
   const data = useSelector((state) => state.activities.send);
-  // console.log('object',data)
 
   return (
     <View>

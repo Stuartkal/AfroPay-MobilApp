@@ -23,11 +23,19 @@ const Auth = (props) => {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //     if (auth === true) {
-  //         // props.navigation.navigate('Register')
-  //     }
-  // }, [auth])
+  const fields = ['email', 'password'];
+
+  const handleError = (err) => {
+    if (err.includes('ReqValidationError')) {
+      for (let field of fields) {
+        if (err.includes(field)) {
+          return setError(`Invalid ${field}`);
+        }
+      }
+    } else {
+      setError(err);
+    }
+  };
 
   let emailReg_expression = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -36,14 +44,7 @@ const Auth = (props) => {
       return setError('Email is Invalid');
     }
 
-    dispatch(
-      actionCreators.login(email, password, (res) => {
-        if (res.success === false) {
-          setError('Invalid User please Sign Up');
-          console.log(res);
-        }
-      }),
-    );
+    dispatch(actionCreators.login(email, password)).catch(handleError);
   };
 
   return (

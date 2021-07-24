@@ -11,8 +11,11 @@ import Styles from './Styles';
 const Profile = (props) => {
   const screenWidth = Dimensions.get('window').width;
 
-  const username = useSelector((state) => state.auth._name);
-  const phonenumber = useSelector((state) => state.auth._phone);
+  const { firstName, lastName, phoneNumber } = useSelector(
+    ({ profile }) => profile,
+  );
+
+  const username = `${firstName} ${lastName}`;
 
   const dispatch = useDispatch();
 
@@ -37,7 +40,7 @@ const Profile = (props) => {
           </View>
           <View>
             <Text style={Styles.proflabel2}>{username}</Text>
-            <Text style={Styles.proflabel3}>{phonenumber}</Text>
+            <Text style={Styles.proflabel3}>{phoneNumber}</Text>
           </View>
         </View>
         <View style={Styles.profile}>

@@ -2,7 +2,7 @@ import * as actionTypes from '../ActionCreators/actions';
 import { updateObject } from './utility';
 
 const initialState = {
-  deposites: [],
+  deposits: [],
   withdrawals: [],
   transfers: [],
 };
