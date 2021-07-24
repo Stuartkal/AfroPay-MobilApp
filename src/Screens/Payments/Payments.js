@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -7,9 +7,8 @@ import {
   View,
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import HeaderBtn from '../../Navigation/HeaderBtn';
-import * as actionCreators from '../../store/ActionCreators';
 import Deposit from './Deposit';
 import SendMoney from './SendMoney';
 import Styles from './Styles';
@@ -18,21 +17,24 @@ import Withdraw from './Withdraw';
 const Payments = () => {
   const screenWidth = Dimensions.get('window').width;
 
-  const balance = useSelector((state) => state.auth._balance);
-  const deposits = useSelector((state) => state.receipts.deposites);
-  const withdrawals = useSelector((state) => state.receipts.withdrawals);
-  const transfers = useSelector((state) => state.receipts.transfers);
-  // console.log('withdrawals', withdrawals)
+  const { balance, deposits, transfers, withdrawals } = useSelector(
+    ({ wallet, receipts }) => ({
+      balance: wallet.balance,
+      deposits: receipts.deposits,
+      withdrawals: receipts.withdrawals,
+      transfers: receipts.transfers,
+    }),
+  );
 
   const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(actionCreators.depositReceipts());
-    dispatch(actionCreators.withdrawReceipts());
-    dispatch(actionCreators.transferReceipts());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(actionCreators.depositReceipts());
+  //   dispatch(actionCreators.withdrawReceipts());
+  //   dispatch(actionCreators.transferReceipts());
+  // }, [dispatch]);
 
   return (
     <View style={Styles.paymentContainer}>

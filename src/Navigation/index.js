@@ -1,17 +1,26 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { getAuthToken } from '../store/ActionCreators/auth';
 import { AppTabNavigation, Authentication } from './Navigation';
 
-const Index = () => {
-  const auth = useSelector((state) => state.auth.authenticated);
+const mapState = ({ loggedIn }) => ({ loggedIn });
+
+const connector = connect(mapState);
+
+const Index = (props) => {
+  const { loggedIn } = props;
+
+  useState(() => {
+    props.dispatch(getAuthToken());
+  }, []);
 
   return (
     <NavigationContainer>
-      {!auth && <Authentication />}
-      {auth && <AppTabNavigation />}
+      {!loggedIn && <Authentication />}
+      {loggedIn && <AppTabNavigation />}
     </NavigationContainer>
   );
 };
 
-export default Index;
+export default connector(Index);

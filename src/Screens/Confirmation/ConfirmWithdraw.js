@@ -7,7 +7,6 @@ import Styles from '../ModalUIs/Styles';
 
 const ConfirmWithdraw = ({ visible, setOpenWithdrawConfirmModal }) => {
   const data = useSelector((state) => state.activities.withdraw_confrim);
-  // console.log('object',data)
 
   return (
     <View>
