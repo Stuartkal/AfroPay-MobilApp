@@ -17,7 +17,7 @@ import * as actionCreators from '../../store/ActionCreators';
 import ConfirmWithdraw from '../Confirmation/ConfirmWithdraw';
 import Styles from './Styles';
 
-const Withdraw = ({ visible, setOpen }) => {
+const Withdraw = ({ visible, setOpen, getLatestWallet }) => {
   const [amount, setAmount] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState('');
@@ -26,20 +26,21 @@ const Withdraw = ({ visible, setOpen }) => {
   const [openWithdrawConfirmModal, setOpenWithdrawConfirmModal] =
     useState(false);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (amount >= 3) {
       setError('');
     }
-  }, [amount]);
-
-  const dispatch = useDispatch();
+  }, [amount, dispatch]);
 
   const handleWithdrawSubmit = () => {
     dispatch(
       actionCreators.withdraw(Number(amount), `+256${phoneNumber.substr(1)}`),
     )
       .then((res) => {
-        console.log(res);
+        setOpen(false);
+        getLatestWallet();
       })
       .catch((err) => handleError(['amount', 'phoneNumber'], err, setError));
   };

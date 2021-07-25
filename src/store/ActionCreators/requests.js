@@ -8,6 +8,11 @@ export const loading = () => {
   };
 };
 
+export const setWallet = (data) => ({
+  type: actionTypes.SET_WALLET,
+  data,
+});
+
 export const activitiesSuccess = (data) => {
   return {
     type: actionTypes.GET_ACTIVITIES_ACTION,
@@ -100,7 +105,7 @@ export const transfer = (amount, receiverId) => {
     // TODO: COMPLETE TRANSFER
     return axios
       .post(
-        `${baseURI}/wallet/withdraw`,
+        `${baseURI}/wallet/transfer`,
         {
           amount,
           senderId: profile.id,
@@ -110,7 +115,26 @@ export const transfer = (amount, receiverId) => {
           headers: { Authorization: token, 'Content-Type': 'application/json' },
         },
       )
-      .then((res) => Promise.resolve(res.data.redirect))
+      .then((res) => Promise.resolve(res.data))
+      .catch((err) => Promise.reject(err.response.data.message));
+  };
+};
+
+export const getWallet = () => {
+  return (dispatch, getState) => {
+    const { token, profile } = getState();
+    return axios
+      .get(`${baseURI}/wallet`, {
+        headers: { Authorization: token },
+        params: {
+          filter: { owner: profile.id },
+          field: 'createdAt',
+          order: 'DESC',
+          perPage: 1,
+          page: 1,
+        },
+      })
+      .then((res) => dispatch(setWallet(res.data.data[0])))
       .catch((err) => Promise.reject(err.response.data.message));
   };
 };
