@@ -1,5 +1,5 @@
 import axios from 'axios';
-import qs from 'qs';
+import { baseURI } from '../../config';
 import * as actionTypes from './actions';
 
 export const loading = () => {
@@ -49,216 +49,69 @@ export const depositAction = (data) => {
   };
 };
 
-export const deposit = (amount, phone, payment_method_id, callback) => {
-  return (dispatch, getState) => {
-    dispatch(loading());
+export const deposit = (amount, method, phoneNumber) => {
+  return (_dispatch, getState) => {
+    const { token, profile } = getState();
 
-    const { token } = getState();
-
-    axios.interceptors.request.use(
-      (config) => {
-        config.headers.authorization = `Bearer ${token}`;
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
-    );
-
-    let requestOptions = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-    };
-
-    const data = qs.stringify({
-      amount,
-      phone,
-      payment_method_id,
-    });
-
-    axios
-      .post('http://165.22.196.206/api/deposit', data, requestOptions)
-      .then((res) => {
-        dispatch(depositAction(res.data));
-        callback({ success: true, res });
-      })
-      .catch((err) => {
-        callback({ success: false, res: err });
-      });
+    return axios
+      .post(
+        `${baseURI}/wallet/top-up`,
+        {
+          amount,
+          paidBy: profile.id,
+          method,
+          phoneNumber,
+        },
+        {
+          headers: { Authorization: token, 'Content-Type': 'application/json' },
+        },
+      )
+      .then((res) => Promise.resolve(res.data.data.redirect))
+      .catch((err) => Promise.reject(err.response.data.message));
   };
 };
 
-export const sendmoneyAction = (data) => {
-  return {
-    type: actionTypes.SEND_MONEY_ACTION,
-    data,
+export const withdraw = (amount, phoneNumber) => {
+  return (_dispatch, getState) => {
+    const { token, profile } = getState();
+
+    // TODO: COMPLETE WITHDRAW
+    return axios
+      .post(
+        `${baseURI}/wallet/withdraw`,
+        {
+          amount,
+          userId: profile.id,
+          phoneNumber,
+        },
+        {
+          headers: { Authorization: token, 'Content-Type': 'application/json' },
+        },
+      )
+      .then((res) => Promise.resolve(res.data.redirect))
+      .catch((err) => Promise.reject(err.response.data.message));
   };
 };
 
-export const sendMoney = (
-  sending_option_id,
-  receiver_id,
-  amount,
-  phone,
-  remarks,
-  callback,
-) => {
-  return (dispatch, getState) => {
-    dispatch(loading());
+export const transfer = (amount, receiverId) => {
+  return (_dispatch, getState) => {
+    const { token, profile } = getState();
 
-    const { token } = getState();
-
-    axios.interceptors.request.use(
-      (config) => {
-        config.headers.authorization = `Bearer ${token}`;
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
-    );
-
-    let requestOptions = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-    };
-
-    const data = qs.stringify({
-      sending_option_id,
-      receiver_id,
-      amount,
-      phone,
-      remarks,
-    });
-
-    axios
-      .post('http://165.22.196.206/api/send', data, requestOptions)
-      .then((res) => {
-        dispatch(sendmoneyAction(res.data));
-        callback({ success: true, res });
-      })
-      .catch((err) => {
-        callback({ success: false, res: err });
-      });
-  };
-};
-
-export const withdrawAction = (data) => {
-  return {
-    type: actionTypes.WITHDRAW_ACTION,
-    data,
-  };
-};
-
-export const withdraw = (amount, agent_id, callback) => {
-  return (dispatch, getState) => {
-    dispatch(loading());
-
-    const { token } = getState();
-
-    axios.interceptors.request.use(
-      (config) => {
-        config.headers.authorization = `Bearer ${token}`;
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
-    );
-
-    let requestOptions = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-    };
-
-    const data = qs.stringify({
-      amount,
-      agent_id,
-    });
-
-    axios
-      .post('http://165.22.196.206/api/withdraw', data, requestOptions)
-      .then((res) => {
-        dispatch(withdrawAction(res.data));
-        callback({ success: true, res });
-      })
-      .catch((err) => {
-        callback({ success: false, res: err });
-      });
-  };
-};
-
-export const withdrawApprovalAction = (data) => {
-  return {
-    type: actionTypes.WITHDRAW_APPROVAL_ACTION,
-    data,
-  };
-};
-
-export const withdrawApproval = (id) => {
-  return (dispatch, getState) => {
-    dispatch(loading());
-
-    const { token } = getState();
-
-    axios.interceptors.request.use(
-      (config) => {
-        config.headers.authorization = `Bearer ${token}`;
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
-    );
-
-    axios
-      .get(`http://165.22.196.206/api/withdraws/approve/${id}`)
-      .then((res) => {
-        dispatch(withdrawApprovalAction(res.data));
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  };
-};
-
-export const withdrawCancelAction = (data) => {
-  return {
-    type: actionTypes.WITHDRAW_CANCEL_ACTION,
-    data,
-  };
-};
-
-export const withdrawCancel = (id) => {
-  return (dispatch, getState) => {
-    dispatch(loading());
-
-    const { token } = getState();
-
-    axios.interceptors.request.use(
-      (config) => {
-        config.headers.authorization = `Bearer ${token}`;
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
-    );
-
-    axios
-      .get(`http://165.22.196.206/api/withdraws/cancel/${id}`)
-      .then((res) => {
-        dispatch(withdrawCancelAction(res.data));
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    // TODO: COMPLETE TRANSFER
+    return axios
+      .post(
+        `${baseURI}/wallet/withdraw`,
+        {
+          amount,
+          senderId: profile.id,
+          receiverId,
+        },
+        {
+          headers: { Authorization: token, 'Content-Type': 'application/json' },
+        },
+      )
+      .then((res) => Promise.resolve(res.data.redirect))
+      .catch((err) => Promise.reject(err.response.data.message));
   };
 };
 

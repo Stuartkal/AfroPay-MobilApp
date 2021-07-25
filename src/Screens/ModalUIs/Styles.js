@@ -78,7 +78,7 @@ const Styles = StyleSheet.create({
     color: Color.primary,
     fontSize: 25,
   },
-  lableTxt: {
+  labelTxt: {
     color: Color.primary,
     fontSize: 25,
   },
@@ -102,7 +102,6 @@ const Styles = StyleSheet.create({
     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
   methodContainer: {
-    width: '80%',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -110,7 +109,7 @@ const Styles = StyleSheet.create({
     width: Dimensions.get('window').width < 800 ? '90%' : '80%',
     height: 50,
     alignItems: 'center',
-    justifyContent: 'center',
+    padding: 10,
     flexDirection: 'row',
     borderRadius: 5,
     backgroundColor: Color.secondary,
