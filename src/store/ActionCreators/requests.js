@@ -88,7 +88,7 @@ export const withdraw = (amount, phoneNumber) => {
           headers: { Authorization: token, 'Content-Type': 'application/json' },
         },
       )
-      .then((res) => Promise.resolve(res.data.redirect))
+      .then((res) => Promise.resolve(res.data))
       .catch((err) => Promise.reject(err.response.data.message));
   };
 };

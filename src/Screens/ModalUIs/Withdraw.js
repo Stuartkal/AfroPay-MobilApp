@@ -8,27 +8,23 @@ import {
   View,
 } from 'react-native';
 import Ripple from 'react-native-material-ripple';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useDispatch, useSelector } from 'react-redux';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useDispatch } from 'react-redux';
 import Color from '../../constants/Color';
+import { handleError } from '../../errors';
 import * as actionCreators from '../../store/ActionCreators';
 import ConfirmWithdraw from '../Confirmation/ConfirmWithdraw';
-import SelectModal from './SelectModal';
 import Styles from './Styles';
 
 const Withdraw = ({ visible, setOpen }) => {
   const [amount, setAmount] = useState('');
-  const [agent_id, setAgent_id] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [error, setError] = useState('');
 
   // eslint-disable-next-line prettier/prettier
   const [openWithdrawConfirmModal, setOpenWithdrawConfirmModal] =
     useState(false);
-
-  const [show, setShow] = useState(false);
-  const [error, setError] = useState('');
-
-  const data = useSelector((state) => state.activities.withdraw);
 
   useEffect(() => {
     if (amount >= 3) {
@@ -40,30 +36,12 @@ const Withdraw = ({ visible, setOpen }) => {
 
   const handleWithdrawSubmit = () => {
     dispatch(
-      actionCreators.withdraw(amount, agent_id, (res) => {
-        if (res.success === true) {
-          setShow(true);
-          setError('');
-        }
-        if (res.success === false) {
-          setError('Please enter all fields with correct details');
-        }
-      }),
-    );
-  };
-
-  const handleCancelSubmit = () => {
-    dispatch(actionCreators.withdrawCancel(data.id));
-    setShow(false);
-  };
-
-  const handleConfirmSubmit = () => {
-    dispatch(actionCreators.withdrawApproval(data.id));
-    setShow(false);
-    setOpen(false);
-    setOpenWithdrawConfirmModal(true);
-    setAmount('');
-    setAgent_id('');
+      actionCreators.withdraw(Number(amount), `+256${phoneNumber.substr(1)}`),
+    )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => handleError(['amount', 'phoneNumber'], err, setError));
   };
 
   return (
@@ -73,23 +51,6 @@ const Withdraw = ({ visible, setOpen }) => {
           visible={openWithdrawConfirmModal}
           setOpenWithdrawConfirmModal={setOpenWithdrawConfirmModal}
         />
-
-        <SelectModal visible={show} close={setShow}>
-          <View style={Styles.confirmHeader}>
-            <Text style={Styles.headerTxt}>Withdraw Confirmation</Text>
-          </View>
-          <Text style={Styles.text}>Your Withdrawing {data.amount} </Text>
-          <Text style={Styles.text}>from Agent {data.agent_id} </Text>
-          <Text style={Styles.text}>{data.status}...</Text>
-          <View style={Styles.btnRow}>
-            <Ripple onPress={handleCancelSubmit} style={Styles.btn}>
-              <Text style={Styles.btnText1}>Cancel</Text>
-            </Ripple>
-            <Ripple onPress={handleConfirmSubmit} style={Styles.btn}>
-              <Text style={Styles.btnText1}>Confirm</Text>
-            </Ripple>
-          </View>
-        </SelectModal>
 
         <View style={Styles.backdrop}>
           <View style={Styles.container4}>
@@ -110,29 +71,29 @@ const Withdraw = ({ visible, setOpen }) => {
                 <View style={{ width: 30 }} />
               </View>
             </View>
-            <Text style={Styles.lableTxt}>Enter Amount</Text>
+            <Text style={Styles.labelTxt}>Enter Amount</Text>
             <View style={Styles.inputRow2}>
-              <Text style={Styles.lableTxt}>UGX</Text>
+              <Text style={Styles.labelTxt}>UGX</Text>
               <TextInput
                 style={Styles.input2}
                 placeholder="1000"
                 keyboardType="decimal-pad"
                 onChangeText={(e) => setAmount(e)}
-                // autoFocus={true}
               />
             </View>
             <View style={Styles.inputRow2}>
-              <AntDesign
+              <MaterialIcons
                 style={{ marginRight: 10 }}
-                name="idcard"
+                name="phone-iphone"
                 size={40}
                 color={Color.primary}
               />
               <TextInput
                 style={Styles.input2}
-                placeholder="Agent Id"
-                onChangeText={(e) => setAgent_id(e)}
-                // autoFocus={true}
+                placeholder="Phone number"
+                onChangeText={(e) => setPhoneNumber(e)}
+                returnKeyType="next"
+                keyboardType="numeric"
               />
             </View>
             <Ripple
