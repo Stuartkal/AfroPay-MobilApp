@@ -6,6 +6,6 @@ export const handleError = (fields, err, callback) => {
       }
     }
   } else {
-    callback(err);
+    return callback(err);
   }
 };

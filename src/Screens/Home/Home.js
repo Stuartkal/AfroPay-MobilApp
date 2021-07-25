@@ -3,9 +3,10 @@ import { Alert, Dimensions, ScrollView, Text, View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import MaterialIons from 'react-native-vector-icons/MaterialIcons';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import Color from '../../constants/Color';
 import HeaderBtn from '../../Navigation/HeaderBtn';
+import { getWallet } from '../../store/ActionCreators/requests';
 import Deposit from '../ModalUIs/Deposit';
 import SendMoney from '../ModalUIs/SendMoney';
 import Withdraw from '../ModalUIs/Withdraw';
@@ -16,6 +17,7 @@ const connector = connect(mapState);
 
 const Home = () => {
   const screenWidth = Dimensions.get('window').width;
+  const dispatch = useDispatch();
 
   const [openDeposit, setDepositOpen] = useState(false);
   const [openSend, setSendOpen] = useState(false);
@@ -23,6 +25,12 @@ const Home = () => {
 
   const balance = useSelector(({ wallet }) => wallet.balance);
   const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const getLatestWallet = () => dispatch(getWallet());
+
+  useState(() => {
+    dispatch(getWallet());
+  }, []);
 
   return (
     <View style={Styles.homeContainer}>
@@ -70,9 +78,21 @@ const Home = () => {
             </Ripple>
           </View>
         </View>
-        <Deposit visible={openDeposit} setOpen={setDepositOpen} />
-        <SendMoney visible={openSend} setOpen={setSendOpen} />
-        <Withdraw visible={openWithdraw} setOpen={setWithdrawOpen} />
+        <Deposit
+          visible={openDeposit}
+          setOpen={setDepositOpen}
+          getLatestWallet={getLatestWallet}
+        />
+        <SendMoney
+          visible={openSend}
+          setOpen={setSendOpen}
+          getLatestWallet={getLatestWallet}
+        />
+        <Withdraw
+          visible={openWithdraw}
+          setOpen={setWithdrawOpen}
+          getLatestWallet={getLatestWallet}
+        />
       </ScrollView>
     </View>
   );
