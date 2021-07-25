@@ -2,23 +2,23 @@
 import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
+  Linking,
   Modal,
   Text,
   TextInput,
   View,
-  Linking,
 } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch } from 'react-redux';
 import Color from '../../constants/Color';
+import { handleError } from '../../errors';
 import * as actionCreators from '../../store/ActionCreators';
 import ConfirmDeposit from '../Confirmation/ConfirmDeposit';
 import Styles from './Styles';
-import { handleError } from '../../errors';
 
-const Deposit = ({ visible, setOpen }) => {
+const Deposit = ({ visible, setOpen, getLatestWallet }) => {
   const [amount, setAmount] = useState(0);
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
@@ -38,6 +38,7 @@ const Deposit = ({ visible, setOpen }) => {
       .then((res) => {
         Linking.openURL(res);
         setOpen(false);
+        getLatestWallet();
       })
       .catch((err) =>
         handleError(['amount', 'method', 'phoneNumber'], err, setError),
