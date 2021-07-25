@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   View,
+  Linking,
 } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,17 +15,15 @@ import { useDispatch } from 'react-redux';
 import Color from '../../constants/Color';
 import * as actionCreators from '../../store/ActionCreators';
 import ConfirmDeposit from '../Confirmation/ConfirmDeposit';
-import SelectModal from './SelectModal';
 import Styles from './Styles';
+import { handleError } from '../../errors';
 
 const Deposit = ({ visible, setOpen }) => {
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState(0);
   const [phone, setPhone] = useState('');
-  const [payment_method_id, setPayment_method_id] = useState('');
   const [error, setError] = useState('');
-
-  const [openDepositConfrimModal, setOpenDepositConfrimModal] = useState(false);
-  const [show, setShow] = useState(false);
+  const [method, setMethod] = useState('momo');
+  const [openDepositConfirmModal, setOpenDepositConfirmModal] = useState(false);
 
   useEffect(() => {
     if (amount.length >= 3) {
@@ -34,59 +33,28 @@ const Deposit = ({ visible, setOpen }) => {
 
   const dispatch = useDispatch();
 
-  const handleDepositeSubmit = () => {
-    dispatch(
-      actionCreators.deposit(amount, phone, payment_method_id, (res) => {
-        if (res.success === false) {
-          setError('Please enter all fields with correct details');
-        }
-        if (res.success === true) {
-          setOpenDepositConfrimModal(true);
-          setAmount('');
-          setPhone('');
-          setPayment_method_id('');
-        }
-      }),
-    );
+  const handleSubmit = () => {
+    dispatch(actionCreators.deposit(Number(amount), method, phone))
+      .then((res) => {
+        Linking.openURL(res);
+        setOpen(false);
+      })
+      .catch((err) =>
+        handleError(['amount', 'method', 'phoneNumber'], err, setError),
+      );
   };
 
-  const handleMTNSubmit = () => {
-    setPayment_method_id('1');
-    setShow(false);
-  };
-
-  const handleAirtelSubmit = () => {
-    setPayment_method_id('2');
-    setShow(false);
-  };
-
-  const handleAfroPaySubmit = () => {
-    setPayment_method_id('3');
-    setShow(false);
+  const changePaymentMethod = () => {
+    setMethod(method === 'momo' ? 'card' : 'momo');
   };
 
   return (
     <KeyboardAvoidingView behavior="height">
       <Modal animationType="slide" transparent={true} visible={visible}>
         <ConfirmDeposit
-          visible={openDepositConfrimModal}
-          setOpenDepositConfrimModal={() => setOpenDepositConfrimModal(false)}
+          visible={openDepositConfirmModal}
+          setOpenDepositConfirmModal={() => setOpenDepositConfirmModal(false)}
         />
-
-        <SelectModal visible={show} close={setShow}>
-          <View style={Styles.confirmHeader}>
-            <Text style={Styles.headerTxt}>Choose Payment Method</Text>
-          </View>
-          <Ripple onPress={handleMTNSubmit} style={Styles.paymentBtn}>
-            <Text style={Styles.btnTxt}>MTN Mobile Money</Text>
-          </Ripple>
-          <Ripple onPress={handleAirtelSubmit} style={Styles.paymentBtn}>
-            <Text style={Styles.btnTxt}>Airtel Money</Text>
-          </Ripple>
-          <Ripple onPress={handleAfroPaySubmit} style={Styles.paymentBtn}>
-            <Text style={Styles.btnTxt}>Afropay</Text>
-          </Ripple>
-        </SelectModal>
 
         <View style={Styles.backdrop}>
           <View style={Styles.container2}>
@@ -106,38 +74,38 @@ const Deposit = ({ visible, setOpen }) => {
                 <View style={{ width: 30 }} />
               </View>
             </View>
-            <Text style={Styles.lableTxt}>Enter Amount</Text>
+            <Text style={Styles.labelTxt}>Enter Amount</Text>
             <View style={Styles.inputRow2}>
-              <Text style={Styles.lableTxt}>UGX</Text>
+              <Text style={Styles.labelTxt}>UGX</Text>
               <TextInput
                 style={Styles.input2}
                 placeholder="1000"
                 keyboardType="decimal-pad"
                 onChangeText={(e) => setAmount(e)}
-                // autoFocus={true}
               />
             </View>
             <Text style={{ color: Color.txtFaint, fontSize: 14 }}>
               min: 500 max: 300,000
             </Text>
-            <View style={Styles.inputRow2}>
-              <MaterialIcons
-                style={{ marginRight: 10 }}
-                name="phone-iphone"
-                size={40}
-                color={Color.primary}
-              />
-              <TextInput
-                style={Styles.input2}
-                keyboardType="decimal-pad"
-                placeholder="075--/070--/078--/077--"
-                returnKeyType="done"
-                onChangeText={(e) => setPhone(e)}
-                // autoFocus={true}
-              />
-            </View>
+            {method === 'momo' && (
+              <View style={Styles.inputRow2}>
+                <MaterialIcons
+                  style={{ marginRight: 10 }}
+                  name="phone-iphone"
+                  size={40}
+                  color={Color.primary}
+                />
+                <TextInput
+                  style={Styles.input2}
+                  keyboardType="decimal-pad"
+                  placeholder="075--/070--/078--/077--"
+                  returnKeyType="done"
+                  onChangeText={(e) => setPhone(e)}
+                />
+              </View>
+            )}
             <View style={Styles.methodContainer}>
-              <Ripple onPress={() => setShow(true)} style={Styles.methodRow}>
+              <Ripple onPress={changePaymentMethod} style={Styles.methodRow}>
                 <MaterialIcons
                   style={{ marginRight: 10 }}
                   name="payment"
@@ -145,12 +113,12 @@ const Deposit = ({ visible, setOpen }) => {
                   color="#fff"
                 />
                 <Text style={{ color: '#fff', fontSize: 18 }}>
-                  Choose Payment Method
+                  Deposit using {method === 'momo' ? 'card' : 'Mobile Money'}
                 </Text>
               </Ripple>
             </View>
             <Ripple
-              onPress={handleDepositeSubmit}
+              onPress={handleSubmit}
               activeOpacity={0.8}
               style={Styles.buttonContainer2}>
               <Text style={Styles.buttonText2}>Make Deposit</Text>
