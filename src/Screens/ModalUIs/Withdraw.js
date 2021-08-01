@@ -14,17 +14,12 @@ import { useDispatch } from 'react-redux';
 import Color from '../../constants/Color';
 import { handleError } from '../../errors';
 import * as actionCreators from '../../store/ActionCreators';
-import ConfirmWithdraw from '../Confirmation/ConfirmWithdraw';
 import Styles from './Styles';
 
 const Withdraw = ({ visible, setOpen, getLatestWallet }) => {
   const [amount, setAmount] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState('');
-
-  // eslint-disable-next-line prettier/prettier
-  const [openWithdrawConfirmModal, setOpenWithdrawConfirmModal] =
-    useState(false);
 
   const dispatch = useDispatch();
 
@@ -48,11 +43,6 @@ const Withdraw = ({ visible, setOpen, getLatestWallet }) => {
   return (
     <KeyboardAvoidingView behavior="height">
       <Modal animationType="slide" transparent={true} visible={visible}>
-        <ConfirmWithdraw
-          visible={openWithdrawConfirmModal}
-          setOpenWithdrawConfirmModal={setOpenWithdrawConfirmModal}
-        />
-
         <View style={Styles.backdrop}>
           <View style={Styles.container4}>
             <View style={Styles.header2}>

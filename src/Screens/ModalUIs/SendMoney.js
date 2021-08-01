@@ -8,24 +8,27 @@ import {
   View,
 } from 'react-native';
 import Ripple from 'react-native-material-ripple';
+import QRCode from 'react-native-qrcode-svg';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
-import Color from '../../constants/Color';
+import Logo from '../../../assets/ic_launcher.png';
+import { default as Color, default as Colors } from '../../constants/Color';
 import { handleError } from '../../errors';
-import { transfer } from '../../store/ActionCreators/requests';
-import ConfirmTransfer from '../Confirmation/ConfirmTransfer';
+import { getUser, transfer } from '../../requests';
+import Scan from '../QRCode/Scan';
+import { isValidUUID } from '../QRCode/utils';
 import Styles from './Styles';
 
-const Transfer = ({ visible, setOpen, getLatestWallet }) => {
-  const [receiverId, setReceiverId] = useState('');
-  const [amount, setAmount] = useState('');
+const Transfer = ({ visible, setOpen, getLatestWallet, receiver = '' }) => {
+  const [receiverDetails, setReceiverDetails] = useState({});
+  const [amount, setAmount] = useState();
   const [error, setError] = useState('');
 
   const balance = useSelector(({ wallet }) => wallet.balance);
   const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-  const [openSendConfirmModal, setOpenSendConfirmModal] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (amount >= 1) {
@@ -33,56 +36,29 @@ const Transfer = ({ visible, setOpen, getLatestWallet }) => {
     }
   }, [amount]);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isValidUUID(receiver)) {
+      dispatch(getUser(receiver))
+        .then((response) => setReceiverDetails(response))
+        .catch(setError);
+    }
+  }, [dispatch, receiver]);
 
   const handleSendMoneySubmit = () => {
-    dispatch(transfer(Number(amount), receiverId))
+    dispatch(transfer(Number(amount), receiver))
       .then((res) => {
-        console.log(res);
         setOpen(false);
         getLatestWallet();
       })
       .catch((err) => handleError(['receiverId', 'amount1'], err, setError));
   };
 
-  // const handleMTNSubmit = () => {
-  //   setSending_option_id('1');
-  //   setShow(false);
-  // };
-
-  // const handleAirtelSubmit = () => {
-  //   setSending_option_id('2');
-  //   setShow(false);
-  // };
-
-  // const handleAfroPaySubmit = () => {
-  //   setSending_option_id('3');
-  //   setShow(false);
-  // };
+  const isValidReceiver = isValidUUID(receiver);
+  const userName = `${receiverDetails.firstName} ${receiverDetails.lastName}`;
 
   return (
     <KeyboardAvoidingView behavior="height">
       <Modal animationType="slide" transparent={true} visible={visible}>
-        <ConfirmTransfer
-          visible={openSendConfirmModal}
-          setOpenSendConfirmModal={setOpenSendConfirmModal}
-        />
-
-        {/* <SelectModal visible={show} close={setShow}>
-          <View style={Styles.confirmHeader}>
-            <Text style={Styles.headerTxt}>Choose Payment Method</Text>
-          </View>
-          <Ripple onPress={handleMTNSubmit} style={Styles.paymentBtn}>
-            <Text style={Styles.btnTxt}>MTN Mobile Money</Text>
-          </Ripple>
-          <Ripple onPress={handleAirtelSubmit} style={Styles.paymentBtn}>
-            <Text style={Styles.btnTxt}>Airtel Money</Text>
-          </Ripple>
-          <Ripple onPress={handleAfroPaySubmit} style={Styles.paymentBtn}>
-            <Text style={Styles.btnTxt}>Afropay</Text>
-          </Ripple>
-        </SelectModal> */}
-
         <View style={Styles.backdrop}>
           <View style={Styles.container3}>
             <View style={Styles.header2}>
@@ -98,7 +74,6 @@ const Transfer = ({ visible, setOpen, getLatestWallet }) => {
                 ) : (
                   <Text style={Styles.headerTxt2}>Transfer Money</Text>
                 )}
-
                 <View style={{ width: 30 }} />
               </View>
             </View>
@@ -110,27 +85,24 @@ const Transfer = ({ visible, setOpen, getLatestWallet }) => {
                 placeholder="1000"
                 keyboardType="decimal-pad"
                 onChangeText={(e) => setAmount(e)}
-                // autoFocus={true}
               />
             </View>
             <Text style={{ color: Color.txtFaint, fontSize: 14 }}>
               Available Balance: {_balance}
             </Text>
-            {/* <View style={Styles.inputRow2}>
-              <MaterialIcons
-                style={{ marginRight: 10 }}
-                name="phone-iphone"
-                size={40}
-                color={Color.primary}
-              />
-              <TextInput
-                style={Styles.input2}
-                placeholder="075--/070--/078--/077--"
-                keyboardType="decimal-pad"
-                onChangeText={(e) => setPhone(e)}
-                // autoFocus={true}
-              />
-            </View> */}
+
+            <View>
+              {isValidReceiver && (
+                <QRCode
+                  size={230}
+                  value={receiver}
+                  logo={Logo}
+                  color={Colors.primary}
+                  quietZone={10}
+                />
+              )}
+              {!isValidReceiver && <Scan />}
+            </View>
             <View style={Styles.inputRow2}>
               <AntDesign
                 style={{ marginRight: 10 }}
@@ -139,39 +111,13 @@ const Transfer = ({ visible, setOpen, getLatestWallet }) => {
                 color={Color.primary}
               />
               <TextInput
+                value={userName}
+                editable={false}
                 style={Styles.input2}
                 placeholder="Receiver Id"
-                onChangeText={(e) => setReceiverId(e)}
               />
             </View>
-            {/* <View style={Styles.inputRow2}>
-              <MaterialIcons
-                style={{ marginRight: 10 }}
-                name="message"
-                size={40}
-                color={Color.primary}
-              />
-              <TextInput
-                style={Styles.input2}
-                placeholder="Remarks"
-                returnKeyType="done"
-                onChangeText={(e) => setRemarks(e)}
-                // autoFocus={true}
-              />
-            </View> */}
-            {/* <View style={Styles.methodContainer}>
-              <Ripple onPress={() => setShow(true)} style={Styles.methodRow}>
-                <MaterialIcons
-                  style={{ marginRight: 10 }}
-                  name="payment"
-                  size={40}
-                  color="#fff"
-                />
-                <Text style={{ color: '#fff', fontSize: 18 }}>
-                  Choose Payment Method
-                </Text>
-              </Ripple>
-            </View> */}
+
             <Ripple
               onPress={handleSendMoneySubmit}
               activeOpacity={0.8}

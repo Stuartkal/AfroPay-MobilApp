@@ -1,11 +1,11 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import {enableScreens} from 'react-native-screens';
-import {Provider} from 'react-redux';
-import {persistStore} from 'redux-persist';
-import {PersistGate} from 'redux-persist/integration/react';
+import { enableScreens } from 'react-native-screens';
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 import Navigation from './src/Navigation';
-import {store} from './src/store';
+import { store } from './src/store';
 
 enableScreens();
 

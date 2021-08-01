@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, Dimensions, ScrollView, Text, View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import MaterialIons from 'react-native-vector-icons/MaterialIcons';
@@ -6,16 +6,17 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import Color from '../../constants/Color';
 import HeaderBtn from '../../Navigation/HeaderBtn';
-import { getWallet } from '../../store/ActionCreators/requests';
+import { getWallet, getAuthToken } from '../../requests';
 import Deposit from '../ModalUIs/Deposit';
 import SendMoney from '../ModalUIs/SendMoney';
 import Withdraw from '../ModalUIs/Withdraw';
 import Styles from './Styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const mapState = ({ wallet }) => ({ wallet });
 const connector = connect(mapState);
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const screenWidth = Dimensions.get('window').width;
   const dispatch = useDispatch();
 
@@ -29,8 +30,17 @@ const Home = () => {
   const getLatestWallet = () => dispatch(getWallet());
 
   useState(() => {
+    dispatch(getAuthToken());
     dispatch(getWallet());
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getWallet());
+    });
+
+    return () => unsubscribe();
+  }, [dispatch, navigation]);
 
   return (
     <View style={Styles.homeContainer}>
@@ -53,21 +63,33 @@ const Home = () => {
             <Ripple
               onPress={() => setDepositOpen(true)}
               style={Styles.serviceCard}>
-              <MaterialIons name="add" size={40} color={Color.primary} />
+              <MaterialCommunityIcons
+                name="bank-transfer-in"
+                size={40}
+                color={Color.primary}
+              />
               <Text style={Styles.serviceTxt}>Deposit</Text>
             </Ripple>
             <Ripple
-              onPress={() => setSendOpen(true)}
+              onPress={() => navigation.jumpTo('QRCode')}
               style={Styles.serviceCard}>
-              <MaterialIons name="money" size={40} color={Color.primary} />
-              <Text style={Styles.serviceTxt}>Send</Text>
+              <MaterialCommunityIcons
+                name="bank-transfer"
+                size={40}
+                color={Color.primary}
+              />
+              <Text style={Styles.serviceTxt}>Transfer</Text>
             </Ripple>
           </View>
           <View style={Styles.homeRow}>
             <Ripple
               onPress={() => setWithdrawOpen(true)}
               style={Styles.serviceCard}>
-              <MaterialIons name="money-off" size={40} color={Color.primary} />
+              <MaterialCommunityIcons
+                name="bank-transfer-out"
+                size={40}
+                color={Color.primary}
+              />
               <Text style={Styles.serviceTxt}>Withdraw</Text>
             </Ripple>
             <Ripple
@@ -87,6 +109,7 @@ const Home = () => {
           visible={openSend}
           setOpen={setSendOpen}
           getLatestWallet={getLatestWallet}
+          receiver=""
         />
         <Withdraw
           visible={openWithdraw}

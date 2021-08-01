@@ -15,7 +15,6 @@ import { useDispatch } from 'react-redux';
 import Color from '../../constants/Color';
 import { handleError } from '../../errors';
 import * as actionCreators from '../../store/ActionCreators';
-import ConfirmDeposit from '../Confirmation/ConfirmDeposit';
 import Styles from './Styles';
 
 const Deposit = ({ visible, setOpen, getLatestWallet }) => {
@@ -23,7 +22,6 @@ const Deposit = ({ visible, setOpen, getLatestWallet }) => {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [method, setMethod] = useState('momo');
-  const [openDepositConfirmModal, setOpenDepositConfirmModal] = useState(false);
 
   useEffect(() => {
     if (amount.length >= 3) {
@@ -52,11 +50,6 @@ const Deposit = ({ visible, setOpen, getLatestWallet }) => {
   return (
     <KeyboardAvoidingView behavior="height">
       <Modal animationType="slide" transparent={true} visible={visible}>
-        <ConfirmDeposit
-          visible={openDepositConfirmModal}
-          setOpenDepositConfirmModal={() => setOpenDepositConfirmModal(false)}
-        />
-
         <View style={Styles.backdrop}>
           <View style={Styles.container2}>
             <View style={Styles.header2}>

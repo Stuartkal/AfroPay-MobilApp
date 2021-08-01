@@ -14,7 +14,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useDispatch } from 'react-redux';
 import logo1 from '../../../assets/images/logo.png';
 import Color from '../../constants/Color';
-import { register } from '../../store/ActionCreators';
+import { register } from '../../requests';
 import AuthStyles from './AuthStyles';
 
 const Register = (props) => {
@@ -26,7 +26,7 @@ const Register = (props) => {
   const [password_confirmation, setPasswordConfirmation] = useState('');
 
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage] = useState('');
 
   const dispatch = useDispatch();
 
