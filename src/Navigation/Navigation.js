@@ -5,22 +5,17 @@ import { View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Color from '../constants/Color';
-// import { createDrawerNavigator } from '@react-navigation/drawer'
 import Auth from '../Screens/Auth/Auth';
 import Register from '../Screens/Auth/Register';
-import confirmPayment from '../Screens/Confirm/ConfirmPayment';
 import Home, { screenOptions as homeOptions } from '../Screens/Home/Home';
 import Payments, {
   screenOptions as paymentOptions,
 } from '../Screens/Payments/Payments';
-import Barcode from '../Screens/Profile/Barcode';
-import GeneratedBarCode from '../Screens/Profile/GeneratedBarCode';
 import Profile from '../Screens/Profile/Profile';
-import QRCode, {
-  screenOptions as qrcodeOptions,
-} from '../Screens/QRCode/QRCodeScan';
+import QRCode from '../Screens/QRCode/QRCode';
 import SplashScreen from './SplashScreen';
 import Styles from './Styles';
+import Details from '../Screens/Payments/Details';
 
 const StackNavigation = createStackNavigator();
 
@@ -40,17 +35,8 @@ export const AppNavigation = () => {
         options={homeOptions}
       />
       <StackNavigation.Screen name="Payments" component={Payments} />
-      <StackNavigation.Screen
-        name="confirmPayment"
-        component={confirmPayment}
-      />
       <StackNavigation.Screen name="QRCode" component={QRCode} />
       <StackNavigation.Screen name="Profile" component={Profile} />
-      <StackNavigation.Screen name="Barcode" component={Barcode} />
-      <StackNavigation.Screen
-        name="GeneratedBarCode"
-        component={GeneratedBarCode}
-      />
       <StackNavigation.Screen
         name="Login"
         component={Auth}
@@ -70,9 +56,19 @@ const Payment = () => {
   return (
     <StackNavigation.Navigator screenOptions={defaultOptions}>
       <StackNavigation.Screen
-        name="Payments"
+        name="History"
         component={Payments}
         options={paymentOptions}
+      />
+      <StackNavigation.Screen
+        name="Details"
+        component={Details}
+        options={({ route }) => {
+          return {
+            ...paymentOptions,
+            headerTitle: route.params.isPayment ? 'Payment' : 'Transfer',
+          };
+        }}
       />
     </StackNavigation.Navigator>
   );
@@ -90,7 +86,7 @@ const QRCodeScan = () => {
       <StackNavigation.Screen
         name="QRCode"
         component={QRCode}
-        options={qrcodeOptions}
+        options={{ headerShown: false, headerTitle: 'Transfer funds' }}
       />
     </StackNavigation.Navigator>
   );
@@ -170,13 +166,3 @@ export const Authentication = () => {
     </StackNavigation.Navigator>
   );
 };
-
-// const DrawerNavigator = createDrawerNavigator()
-
-// export const DrawerScreens = () => {
-//     return (
-//         <DrawerNavigator.Navigator>
-//             <DrawerNavigator.Screen name="Home" component={AppTabNavigation} />
-//         </DrawerNavigator.Navigator>
-//     )
-// }

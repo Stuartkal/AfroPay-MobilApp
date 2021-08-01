@@ -12,7 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useDispatch } from 'react-redux';
 import logo1 from '../../../assets/images/logo.png';
 import Color from '../../constants/Color';
-import * as actionCreators from '../../store/ActionCreators';
+import { login } from '../../requests';
 import AuthStyles from './AuthStyles';
 
 const Auth = (props) => {
@@ -26,6 +26,7 @@ const Auth = (props) => {
   const fields = ['email', 'password'];
 
   const handleError = (err) => {
+    console.error(err);
     if (err.includes('ReqValidationError')) {
       for (let field of fields) {
         if (err.includes(field)) {
@@ -44,7 +45,7 @@ const Auth = (props) => {
       return setError('Email is Invalid');
     }
 
-    dispatch(actionCreators.login(email, password)).catch(handleError);
+    dispatch(login(email, password)).catch(handleError);
   };
 
   return (

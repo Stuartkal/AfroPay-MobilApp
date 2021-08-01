@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { getAuthToken } from '../store/ActionCreators/auth';
+import { getAuthToken } from '../requests';
 import { AppTabNavigation, Authentication } from './Navigation';
 
 const mapState = ({ loggedIn }) => ({ loggedIn });
