@@ -2,14 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../requests';
+import Styles from '../Home/Styles';
 
 const DataItem = ({ label, value }) => {
   return (
-    <View style={[styles.dataItem]}>
-      <Text style={[styles.boldText, styles.text]}>{label}: </Text>
-      <Text style={styles.text}>
-        {label === 'createdAt' ? new Date(value).toLocaleString() : value}
-      </Text>
+    <View
+      style={{
+        alignItems: 'flex-start',
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+      }}>
+      <View style={[styles.dataItem]}>
+        <Text style={[styles.boldText, styles.text]}>{label}: </Text>
+        <Text style={styles.text}>
+          {label === 'createdAt' ? new Date(value).toLocaleString() : value}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -76,6 +84,16 @@ export default function Details({
 
   return (
     <View style={styles.container}>
+      <Text style={{ fontSize: 18, fontWeight: 'bold', marginVertical: 10 }}>
+        Receipt Details
+      </Text>
+      <View
+        style={{
+          width: '100%',
+          backgroundColor: 'rgba(0,0,0,0.1)',
+          height: 1,
+        }}
+      />
       {error !== '' && <Text style={styles.errorText}>{error}</Text>}
       {keys.map((key) => (
         <DataItem key={key} label={key} value={currentItem[key]} />
@@ -87,9 +105,16 @@ export default function Details({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     padding: 10,
+  },
+  receipt: {
+    alignItems: 'flex-start',
+    width: '85%',
+    padding: 10,
+    backgroundColor: '#fff',
   },
   dataItem: { flexDirection: 'row', marginVertical: 5, width: '100%' },
   boldText: { fontWeight: 'bold' },

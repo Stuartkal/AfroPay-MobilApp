@@ -35,11 +35,15 @@ const PaymentItem = ({ item, profile: { id }, width, navigation }) => {
           <Text style={styles.listText}>
             Payment of UGX {amount} {paidByMe ? 'by' : 'to'} me
           </Text>
-          <Text style={[{ color: Colors.secondary }]}>
+          <Text style={[{ color: Colors.txtFaint }]}>
             {new Date(createdAt).toLocaleString()}
           </Text>
         </View>
-        <MaterialIcons name="arrow-forward-ios" size={30} color="white" />
+        <MaterialIcons
+          name="arrow-forward-ios"
+          size={30}
+          color={Colors.txtFaint}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -59,11 +63,15 @@ const TransferItem = ({ item, profile: { id }, width, navigation }) => {
           <Text style={styles.listText}>
             Transfer of UGX {amount} {transferredByMe ? 'by' : 'to'} me
           </Text>
-          <Text style={[{ color: Colors.secondary }]}>
+          <Text style={[{ color: Colors.txtFaint }]}>
             {new Date(createdAt).toLocaleString()}
           </Text>
         </View>
-        <MaterialIcons name="arrow-forward-ios" size={30} color="white" />
+        <MaterialIcons
+          name="arrow-forward-ios"
+          size={30}
+          color={Colors.txtFaint}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -166,20 +174,25 @@ export const screenOptions = (navData) => {
 export default Payments;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center' },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'center',
+  },
   listItem: {
-    backgroundColor: Colors.primary,
-    width: 350,
+    backgroundColor: '#fff',
+    width: 400,
     marginVertical: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   listText: {
-    color: 'white',
+    color: Colors.secondary,
+    fontWeight: 'bold',
   },
   errorText: { color: 'red', textAlign: 'center' },
 });

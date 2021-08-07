@@ -12,6 +12,8 @@ import SendMoney from '../ModalUIs/SendMoney';
 import Withdraw from '../ModalUIs/Withdraw';
 import Styles from './Styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Transaction from './Transaction';
 
 const mapState = ({ wallet }) => ({ wallet });
 const connector = connect(mapState);
@@ -53,51 +55,111 @@ const Home = ({ navigation }) => {
             <Text style={Styles.label1}>UGX</Text>
             <Text style={Styles.label2}>{_balance}</Text>
           </View>
-          <Text style={Styles.label3}>Your available AfroPay balance</Text>
+          <Text style={Styles.label3}>AfroPay available balance</Text>
+          <View style={Styles.circleRow}>
+            <View style={Styles.circleColumn}>
+              <Ripple style={Styles.circle}>
+                <MaterialCommunityIcons
+                  name="cellphone-android"
+                  size={35}
+                  color={Color.main}
+                />
+              </Ripple>
+              <Text style={Styles.label3}>Transfer</Text>
+            </View>
+            <View style={Styles.circleColumn}>
+              <Ripple style={Styles.circle}>
+                <MaterialCommunityIcons
+                  name="history"
+                  size={35}
+                  color={Color.main}
+                />
+              </Ripple>
+              <Text style={Styles.label3}>History</Text>
+            </View>
+            <View style={Styles.circleColumn}>
+              <Ripple style={Styles.circle}>
+                <MaterialIcons name="add" size={35} color={Color.main} />
+              </Ripple>
+              <Text style={Styles.label3}>Deposit</Text>
+            </View>
+            <View style={Styles.circleColumn}>
+              <Ripple style={Styles.circle}>
+                <MaterialIcons
+                  name="qr-code-scanner"
+                  size={35}
+                  color={Color.main}
+                />
+              </Ripple>
+              <Text style={Styles.label3}>QRCode</Text>
+            </View>
+          </View>
         </View>
         <View style={Styles.service}>
           <View style={Styles.serviceTxtRow}>
             <Text style={Styles.serviceTxt2}>Recharge</Text>
           </View>
-          <View style={Styles.homeRow}>
-            <Ripple
-              onPress={() => setDepositOpen(true)}
-              style={Styles.serviceCard}>
-              <MaterialCommunityIcons
-                name="bank-transfer-in"
-                size={40}
-                color={Color.primary}
-              />
-              <Text style={Styles.serviceTxt}>Deposit</Text>
-            </Ripple>
-            <Ripple
-              onPress={() => navigation.jumpTo('QRCode')}
-              style={Styles.serviceCard}>
-              <MaterialCommunityIcons
-                name="bank-transfer"
-                size={40}
-                color={Color.primary}
-              />
-              <Text style={Styles.serviceTxt}>Transfer</Text>
-            </Ripple>
-          </View>
-          <View style={Styles.homeRow}>
-            <Ripple
-              onPress={() => setWithdrawOpen(true)}
-              style={Styles.serviceCard}>
-              <MaterialCommunityIcons
-                name="bank-transfer-out"
-                size={40}
-                color={Color.primary}
-              />
-              <Text style={Styles.serviceTxt}>Withdraw</Text>
-            </Ripple>
-            <Ripple
-              onPress={() => Alert.alert('Comming Soon!!')}
-              style={Styles.serviceCard}>
-              <MaterialIons name="payment" size={40} color={Color.primary} />
-              <Text style={Styles.serviceTxt}>Pay Bill</Text>
-            </Ripple>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={Styles.homeRow}>
+              <Ripple
+                onPress={() => setDepositOpen(true)}
+                style={Styles.serviceCard}>
+                <MaterialIcons name="add" size={40} color={Color.primary} />
+                <Text style={Styles.serviceTxt}>Deposit</Text>
+              </Ripple>
+              <Ripple
+                onPress={() => navigation.jumpTo('QRCode')}
+                style={Styles.serviceCard}>
+                <MaterialCommunityIcons
+                  name="bank-transfer"
+                  size={40}
+                  color={Color.primary}
+                />
+                <Text style={Styles.serviceTxt}>Transfer</Text>
+              </Ripple>
+              <Ripple
+                onPress={() => setWithdrawOpen(true)}
+                style={Styles.serviceCard}>
+                <MaterialCommunityIcons
+                  name="bank-transfer-out"
+                  size={40}
+                  color={Color.primary}
+                />
+                <Text style={Styles.serviceTxt}>Withdraw</Text>
+              </Ripple>
+              <Ripple
+                onPress={() => Alert.alert('Comming Soon!!')}
+                style={Styles.serviceCard}>
+                <MaterialCommunityIcons
+                  name="cellphone-wireless"
+                  size={40}
+                  color={Color.primary}
+                />
+                <Text style={Styles.serviceTxt}>Airtime</Text>
+              </Ripple>
+              <Ripple
+                onPress={() => Alert.alert('Comming Soon!!')}
+                style={Styles.serviceCard}>
+                <MaterialIons name="payment" size={40} color={Color.primary} />
+                <Text style={Styles.serviceTxt}>Pay Bill</Text>
+              </Ripple>
+              <Ripple
+                onPress={() => Alert.alert('Comming Soon!!')}
+                style={Styles.serviceCard}>
+                <MaterialCommunityIcons
+                  name="school"
+                  size={40}
+                  color={Color.primary}
+                />
+                <Text style={Styles.serviceTxt}>School fees</Text>
+              </Ripple>
+            </View>
+          </ScrollView>
+          <View style={Styles.recent}>
+            <Text style={Styles.tTxtHeader}>Recent Transactions</Text>
+            <Transaction />
+            <Transaction />
+            <Transaction />
           </View>
         </View>
         <Deposit

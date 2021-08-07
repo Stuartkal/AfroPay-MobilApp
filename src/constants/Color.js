@@ -5,4 +5,5 @@ export default {
   txtHeader: 'rgba(0,0,0,0.9)',
   main: '#f7f7f7',
   label: 'rgba(0,0,0,0.7)',
+  bgWhite: '#fff',
 };
