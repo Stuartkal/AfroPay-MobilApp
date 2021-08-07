@@ -3,18 +3,19 @@ import Color from '../../constants/Color';
 
 const Styles = StyleSheet.create({
   homeContainer: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: 'center',
     backgroundColor: Color.main,
+    width: '100%',
   },
   balanceCard: {
-    marginTop: 40,
+    marginTop: 20,
     paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 20,
     width: '80%',
-    height: 100,
+    height: 180,
     elevation: 1,
     // borderRadius: 5,
     shadowColor: 'black',
@@ -28,6 +29,83 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    marginTop: 10,
+  },
+
+  circleRow: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
+  circleColumn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+
+  circle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    height: 60,
+    borderRadius: 100,
+    backgroundColor: Color.primary,
+    margin: 5,
+    overflow: 'hidden',
+  },
+
+  recent: {
+    alignItems: 'flex-start',
+    width: '100%',
+    backgroundColor: Color.bgWhite,
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+    elevation: 4,
+    shadowColor: 'black',
+    shadowOpacity: 0.26,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    height: 300,
+    padding: 10,
+  },
+
+  transaction: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    flexDirection: 'row',
+    marginVertical: 5,
+  },
+
+  tTxtHeader: {
+    fontWeight: '400',
+    fontSize: 18,
+    color: 'rgba(0,0,0,0.6)',
+  },
+
+  tTxt1: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'rgba(0,0,0,0.7)',
+  },
+
+  tTxt2: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+
+  tTxt3: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: Color.secondary,
+  },
+
+  transactionColumn: {
+    alignItems: 'flex-start',
+    flexDirection: 'column',
   },
 
   label1: {
@@ -46,19 +124,20 @@ const Styles = StyleSheet.create({
   homeRow: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '75%',
+    width: '95%',
     flexDirection: 'row',
   },
   service: {
-    width: '90%',
+    width: '100%',
     alignItems: 'center',
   },
   serviceCard: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 20,
-    height: 120,
-    width: '45%',
+    marginVertical: 10,
+    marginRight: 10,
+    height: 90,
+    width: 90,
     elevation: 4,
     shadowColor: 'black',
     shadowOpacity: 0.26,
@@ -67,14 +146,14 @@ const Styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   serviceTxtRow: {
-    width: '75%',
+    width: '95%',
     alignItems: 'flex-start',
   },
   serviceTxt: {
-    fontSize: 20,
+    fontSize: 16,
   },
   serviceTxt2: {
-    fontSize: 20,
+    fontSize: 18,
   },
 });
 
