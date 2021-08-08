@@ -58,7 +58,9 @@ const Home = ({ navigation }) => {
           <Text style={Styles.label3}>AfroPay available balance</Text>
           <View style={Styles.circleRow}>
             <View style={Styles.circleColumn}>
-              <Ripple style={Styles.circle}>
+              <Ripple
+                style={Styles.circle}
+                onPress={() => navigation.jumpTo('QRCode')}>
                 <MaterialCommunityIcons
                   name="cellphone-android"
                   size={35}
@@ -68,7 +70,9 @@ const Home = ({ navigation }) => {
               <Text style={Styles.label3}>Transfer</Text>
             </View>
             <View style={Styles.circleColumn}>
-              <Ripple style={Styles.circle}>
+              <Ripple
+                style={Styles.circle}
+                onPress={() => navigation.navigate('History')}>
                 <MaterialCommunityIcons
                   name="history"
                   size={35}
@@ -78,13 +82,17 @@ const Home = ({ navigation }) => {
               <Text style={Styles.label3}>History</Text>
             </View>
             <View style={Styles.circleColumn}>
-              <Ripple style={Styles.circle}>
+              <Ripple
+                style={Styles.circle}
+                onPress={() => setDepositOpen(true)}>
                 <MaterialIcons name="add" size={35} color={Color.main} />
               </Ripple>
               <Text style={Styles.label3}>Deposit</Text>
             </View>
             <View style={Styles.circleColumn}>
-              <Ripple style={Styles.circle}>
+              <Ripple
+                style={Styles.circle}
+                onPress={() => navigation.jumpTo('QRCode')}>
                 <MaterialIcons
                   name="qr-code-scanner"
                   size={35}
@@ -156,7 +164,9 @@ const Home = ({ navigation }) => {
             </View>
           </ScrollView>
           <View style={Styles.recent}>
-            <Text style={Styles.tTxtHeader}>Recent Transactions</Text>
+            <View style={Styles.transactionHeader}>
+              <Text style={Styles.tTxtHeader}>Recent Transactions</Text>
+            </View>
             <Transaction />
             <Transaction />
             <Transaction />
