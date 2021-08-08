@@ -99,7 +99,7 @@ const Home = ({ navigation }) => {
                   color={Color.main}
                 />
               </Ripple>
-              <Text style={Styles.label3}>QRCode</Text>
+              <Text style={Styles.label3}>Scan Code</Text>
             </View>
           </View>
         </View>
@@ -149,7 +149,7 @@ const Home = ({ navigation }) => {
                 onPress={() => Alert.alert('Comming Soon!!')}
                 style={Styles.serviceCard}>
                 <MaterialCommunityIcons
-                  name="cellphone-wireless"
+                  name="wifi"
                   size={40}
                   color={Color.primary}
                 />

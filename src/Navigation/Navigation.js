@@ -109,7 +109,7 @@ export const AppTabNavigation = () => {
         }}
       />
       <TabNavigation.Screen
-        name="QRCode"
+        name="Scan Code"
         component={QRCodeScan}
         options={{
           tabBarIcon: (props) => {
