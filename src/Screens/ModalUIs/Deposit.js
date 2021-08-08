@@ -17,7 +17,7 @@ import { handleError } from '../../errors';
 import * as actionCreators from '../../store/ActionCreators';
 import Styles from './Styles';
 
-const Deposit = ({ visible, setOpen, getLatestWallet }) => {
+const Deposit = ({ closeModal, getLatestWallet }) => {
   const [amount, setAmount] = useState(0);
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
@@ -35,7 +35,7 @@ const Deposit = ({ visible, setOpen, getLatestWallet }) => {
     dispatch(actionCreators.deposit(Number(amount), method, phone))
       .then((res) => {
         Linking.openURL(res);
-        setOpen(false);
+        closeModal();
         getLatestWallet();
       })
       .catch((err) =>
@@ -49,13 +49,13 @@ const Deposit = ({ visible, setOpen, getLatestWallet }) => {
 
   return (
     <KeyboardAvoidingView behavior="height">
-      <Modal animationType="slide" transparent={true} visible={visible}>
+      <Modal animationType="slide" transparent={true}>
         <View style={Styles.backdrop}>
           <View style={Styles.container2}>
             <View style={Styles.header2}>
               <View style={Styles.headerInner}>
                 <Ionicons
-                  onPress={() => setOpen(false)}
+                  onPress={() => closeModal()}
                   name="close"
                   size={30}
                   color={Color.primary}

@@ -8,14 +8,12 @@ import Color from '../constants/Color';
 import Auth from '../Screens/Auth/Auth';
 import Register from '../Screens/Auth/Register';
 import Home, { screenOptions as homeOptions } from '../Screens/Home/Home';
-import Payments, {
-  screenOptions as paymentOptions,
-} from '../Screens/Payments/Payments';
 import Profile from '../Screens/Profile/Profile';
 import QRCode from '../Screens/QRCode/QRCode';
+import Receipts, { screenOptions as receiptOptions } from '../Screens/Receipts';
+import Details from '../Screens/Receipts/Details';
 import SplashScreen from './SplashScreen';
 import Styles from './Styles';
-import Details from '../Screens/Payments/Details';
 
 const StackNavigation = createStackNavigator();
 
@@ -34,7 +32,7 @@ export const AppNavigation = () => {
         component={Home}
         options={homeOptions}
       />
-      <StackNavigation.Screen name="Payments" component={Payments} />
+      <StackNavigation.Screen name="Payments" component={Receipts} />
       <StackNavigation.Screen name="QRCode" component={QRCode} />
       <StackNavigation.Screen name="Profile" component={Profile} />
       <StackNavigation.Screen
@@ -46,7 +44,7 @@ export const AppNavigation = () => {
   );
 };
 
-const Payment = () => {
+const ReceiptsStack = () => {
   const defaultOptions = {
     headerTitleStyle: {
       fontSize: 25,
@@ -57,15 +55,15 @@ const Payment = () => {
     <StackNavigation.Navigator screenOptions={defaultOptions}>
       <StackNavigation.Screen
         name="History"
-        component={Payments}
-        options={paymentOptions}
+        component={Receipts}
+        options={receiptOptions}
       />
       <StackNavigation.Screen
         name="Details"
         component={Details}
         options={({ route }) => {
           return {
-            ...paymentOptions,
+            ...receiptOptions,
             headerTitle: route.params.isPayment ? 'Payment' : 'Transfer',
           };
         }}
@@ -109,7 +107,7 @@ export const AppTabNavigation = () => {
         }}
       />
       <TabNavigation.Screen
-        name="QRCode"
+        name="Scan Code"
         component={QRCodeScan}
         options={{
           tabBarIcon: (props) => {
@@ -127,7 +125,7 @@ export const AppTabNavigation = () => {
       />
       <TabNavigation.Screen
         name="Receipts"
-        component={Payment}
+        component={ReceiptsStack}
         options={{
           tabBarIcon: (props) => {
             return (

@@ -21,7 +21,7 @@ import SendMoney from '../ModalUIs/SendMoney';
 import Scan from './Scan';
 import { checkPermissions, isValidUUID } from './utils';
 
-const QRCodeScan = ({ navigation }) => {
+const QRCodeScan = () => {
   const [isTransferModalVisible, setIsTransferModalVisible] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [receiver, setReceiver] = useState('');
@@ -136,12 +136,13 @@ const QRCodeScan = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <SendMoney
-        visible={isTransferModalVisible}
-        setOpen={setIsTransferModalVisible}
-        getLatestWallet={getLatestWallet}
-        receiver={receiver}
-      />
+      {isTransferModalVisible && (
+        <SendMoney
+          closeModal={() => setIsTransferModalVisible(false)}
+          getLatestWallet={getLatestWallet}
+          receiver={receiver}
+        />
+      )}
       {isScanning && (
         <Scan
           handlebarCodeData={handlebarCodeData}

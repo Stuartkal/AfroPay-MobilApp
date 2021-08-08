@@ -6,12 +6,7 @@ import Styles from '../Home/Styles';
 
 const DataItem = ({ label, value }) => {
   return (
-    <View
-      style={{
-        alignItems: 'flex-start',
-        paddingHorizontal: 20,
-        paddingVertical: 5,
-      }}>
+    <View style={Styles.receiptDataItem}>
       <View style={[styles.dataItem]}>
         <Text style={[styles.boldText, styles.text]}>{label}: </Text>
         <Text style={styles.text}>
@@ -84,16 +79,8 @@ export default function Details({
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 18, fontWeight: 'bold', marginVertical: 10 }}>
-        Receipt Details
-      </Text>
-      <View
-        style={{
-          width: '100%',
-          backgroundColor: 'rgba(0,0,0,0.1)',
-          height: 1,
-        }}
-      />
+      <Text style={Styles.receiptDetailsText}>Receipt Details</Text>
+      <View style={Styles.receiptDetails} />
       {error !== '' && <Text style={styles.errorText}>{error}</Text>}
       {keys.map((key) => (
         <DataItem key={key} label={key} value={currentItem[key]} />
@@ -106,8 +93,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
     padding: 10,
   },
   receipt: {

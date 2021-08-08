@@ -20,7 +20,7 @@ import Scan from '../QRCode/Scan';
 import { isValidUUID } from '../QRCode/utils';
 import Styles from './Styles';
 
-const Transfer = ({ visible, setOpen, getLatestWallet, receiver = '' }) => {
+const Transfer = ({ closeModal, getLatestWallet, receiver = '' }) => {
   const [receiverDetails, setReceiverDetails] = useState({});
   const [amount, setAmount] = useState();
   const [error, setError] = useState('');
@@ -47,7 +47,7 @@ const Transfer = ({ visible, setOpen, getLatestWallet, receiver = '' }) => {
   const handleSendMoneySubmit = () => {
     dispatch(transfer(Number(amount), receiver))
       .then((res) => {
-        setOpen(false);
+        closeModal();
         getLatestWallet();
       })
       .catch((err) => handleError(['receiverId', 'amount1'], err, setError));
@@ -58,13 +58,13 @@ const Transfer = ({ visible, setOpen, getLatestWallet, receiver = '' }) => {
 
   return (
     <KeyboardAvoidingView behavior="height">
-      <Modal animationType="slide" transparent={true} visible={visible}>
+      <Modal animationType="slide" transparent={true}>
         <View style={Styles.backdrop}>
           <View style={Styles.container3}>
             <View style={Styles.header2}>
               <View style={Styles.headerInner}>
                 <Ionicons
-                  onPress={() => setOpen(false)}
+                  onPress={() => closeModal()}
                   name="close"
                   size={30}
                   color={Color.primary}

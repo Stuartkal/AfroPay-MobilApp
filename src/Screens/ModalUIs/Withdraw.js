@@ -16,7 +16,7 @@ import { handleError } from '../../errors';
 import * as actionCreators from '../../store/ActionCreators';
 import Styles from './Styles';
 
-const Withdraw = ({ visible, setOpen, getLatestWallet }) => {
+const Withdraw = ({ closeModal, getLatestWallet }) => {
   const [amount, setAmount] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState('');
@@ -34,7 +34,7 @@ const Withdraw = ({ visible, setOpen, getLatestWallet }) => {
       actionCreators.withdraw(Number(amount), `+256${phoneNumber.substr(1)}`),
     )
       .then((res) => {
-        setOpen(false);
+        closeModal();
         getLatestWallet();
       })
       .catch((err) => handleError(['amount', 'phoneNumber'], err, setError));
@@ -42,13 +42,13 @@ const Withdraw = ({ visible, setOpen, getLatestWallet }) => {
 
   return (
     <KeyboardAvoidingView behavior="height">
-      <Modal animationType="slide" transparent={true} visible={visible}>
+      <Modal animationType="slide" transparent={true}>
         <View style={Styles.backdrop}>
           <View style={Styles.container4}>
             <View style={Styles.header2}>
               <View style={Styles.headerInner}>
                 <Ionicons
-                  onPress={() => setOpen(false)}
+                  onPress={() => closeModal()}
                   name="close"
                   size={30}
                   color={Color.primary}
