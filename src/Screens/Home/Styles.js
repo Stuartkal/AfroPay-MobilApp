@@ -78,12 +78,20 @@ const Styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     marginVertical: 5,
+    paddingHorizontal: 10,
+  },
+
+  transactionHeader: {
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    width: '100%',
   },
 
   tTxtHeader: {
     fontWeight: '400',
     fontSize: 18,
     color: 'rgba(0,0,0,0.6)',
+    marginLeft: 10,
   },
 
   tTxt1: {
@@ -151,6 +159,7 @@ const Styles = StyleSheet.create({
   },
   serviceTxt: {
     fontSize: 16,
+    textAlign: 'center',
   },
   serviceTxt2: {
     fontSize: 18,
