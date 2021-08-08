@@ -165,6 +165,10 @@ const Styles = StyleSheet.create({
   serviceTxt2: {
     fontSize: 18,
   },
+  rippleLogo: {
+    width: 50,
+    height: 50,
+  },
 });
 
 export default Styles;

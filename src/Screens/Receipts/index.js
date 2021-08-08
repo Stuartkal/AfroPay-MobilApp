@@ -105,7 +105,7 @@ const renderItem =
   ({ item }) =>
     <ListItem item={item} navigation={navigation} />;
 
-const Payments = ({ navigation }) => {
+const Receipts = ({ navigation }) => {
   const [paymentsFromMe, setPaymentsFromMe] = useState([]);
   const [paymentsToMe, setPaymentsToMe] = useState([]);
   const [transfersToMe, setTransfersToMe] = useState([]);
@@ -171,7 +171,7 @@ export const screenOptions = (navData) => {
   };
 };
 
-export default Payments;
+export default Receipts;
 
 const styles = StyleSheet.create({
   container: {

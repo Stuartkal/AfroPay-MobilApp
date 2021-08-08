@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, Dimensions, ScrollView, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, Dimensions, Image, ScrollView, Text, View } from 'react-native';
 import Ripple from 'react-native-material-ripple';
-import MaterialIons from 'react-native-vector-icons/MaterialIcons';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import Color from '../../constants/Color';
-import HeaderBtn from '../../Navigation/HeaderBtn';
-import { getWallet, getAuthToken } from '../../requests';
-import Deposit from '../ModalUIs/Deposit';
-import SendMoney from '../ModalUIs/SendMoney';
-import Withdraw from '../ModalUIs/Withdraw';
-import Styles from './Styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import umeme from '../../../assets/images/umeme-squarelogo-1469599304531.png';
+import nwsc from '../../../assets/images/63FNZrNE.jpg';
+import Color from '../../constants/Color';
+import HeaderBtn from '../../Navigation/HeaderBtn';
+import { getAuthToken, getWallet } from '../../requests';
+import Modal from './modal';
+
+import Styles from './Styles';
 import Transaction from './Transaction';
 
 const mapState = ({ wallet }) => ({ wallet });
@@ -22,9 +22,7 @@ const Home = ({ navigation }) => {
   const screenWidth = Dimensions.get('window').width;
   const dispatch = useDispatch();
 
-  const [openDeposit, setDepositOpen] = useState(false);
-  const [openSend, setSendOpen] = useState(false);
-  const [openWithdraw, setWithdrawOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState('');
 
   const balance = useSelector(({ wallet }) => wallet.balance);
   const _balance = balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -60,7 +58,7 @@ const Home = ({ navigation }) => {
             <View style={Styles.circleColumn}>
               <Ripple
                 style={Styles.circle}
-                onPress={() => navigation.jumpTo('QRCode')}>
+                onPress={() => navigation.jumpTo('Scan Code')}>
                 <MaterialCommunityIcons
                   name="cellphone-android"
                   size={35}
@@ -69,6 +67,7 @@ const Home = ({ navigation }) => {
               </Ripple>
               <Text style={Styles.label3}>Transfer</Text>
             </View>
+
             <View style={Styles.circleColumn}>
               <Ripple
                 style={Styles.circle}
@@ -81,25 +80,27 @@ const Home = ({ navigation }) => {
               </Ripple>
               <Text style={Styles.label3}>History</Text>
             </View>
+
             <View style={Styles.circleColumn}>
               <Ripple
                 style={Styles.circle}
-                onPress={() => setDepositOpen(true)}>
+                onPress={() => setActiveModal('deposit')}>
                 <MaterialIcons name="add" size={35} color={Color.main} />
               </Ripple>
               <Text style={Styles.label3}>Deposit</Text>
             </View>
+
             <View style={Styles.circleColumn}>
               <Ripple
                 style={Styles.circle}
-                onPress={() => navigation.jumpTo('QRCode')}>
+                onPress={() => navigation.jumpTo('Scan Code')}>
                 <MaterialIcons
                   name="qr-code-scanner"
                   size={35}
                   color={Color.main}
                 />
               </Ripple>
-              <Text style={Styles.label3}>QRCode</Text>
+              <Text style={Styles.label3}>Scan Code</Text>
             </View>
           </View>
         </View>
@@ -110,13 +111,14 @@ const Home = ({ navigation }) => {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={Styles.homeRow}>
               <Ripple
-                onPress={() => setDepositOpen(true)}
+                onPress={() => setActiveModal('deposit')}
                 style={Styles.serviceCard}>
                 <MaterialIcons name="add" size={40} color={Color.primary} />
                 <Text style={Styles.serviceTxt}>Deposit</Text>
               </Ripple>
+
               <Ripple
-                onPress={() => navigation.jumpTo('QRCode')}
+                onPress={() => navigation.jumpTo('Scan Code')}
                 style={Styles.serviceCard}>
                 <MaterialCommunityIcons
                   name="bank-transfer"
@@ -125,8 +127,9 @@ const Home = ({ navigation }) => {
                 />
                 <Text style={Styles.serviceTxt}>Transfer</Text>
               </Ripple>
+
               <Ripple
-                onPress={() => setWithdrawOpen(true)}
+                onPress={() => setActiveModal('withdraw')}
                 style={Styles.serviceCard}>
                 <MaterialCommunityIcons
                   name="bank-transfer-out"
@@ -135,6 +138,7 @@ const Home = ({ navigation }) => {
                 />
                 <Text style={Styles.serviceTxt}>Withdraw</Text>
               </Ripple>
+
               <Ripple
                 onPress={() => Alert.alert('Comming Soon!!')}
                 style={Styles.serviceCard}>
@@ -149,7 +153,7 @@ const Home = ({ navigation }) => {
                 onPress={() => Alert.alert('Comming Soon!!')}
                 style={Styles.serviceCard}>
                 <MaterialCommunityIcons
-                  name="cellphone-wireless"
+                  name="wifi"
                   size={40}
                   color={Color.primary}
                 />
@@ -158,21 +162,28 @@ const Home = ({ navigation }) => {
               <Ripple
                 onPress={() => Alert.alert('Comming Soon!!')}
                 style={Styles.serviceCard}>
-                <MaterialIons name="payment" size={40} color={Color.primary} />
-                <Text style={Styles.serviceTxt}>Pay Bill</Text>
+                <Image source={umeme} style={Styles.rippleLogo} />
+                <Text style={Styles.serviceTxt}>UMEME</Text>
+              </Ripple>
+              <Ripple
+                onPress={() => Alert.alert('Comming Soon!!')}
+                style={Styles.serviceCard}>
+                <Image source={nwsc} style={Styles.rippleLogo} />
+                <Text style={Styles.serviceTxt}>NWSC</Text>
               </Ripple>
               <Ripple
                 onPress={() => Alert.alert('Comming Soon!!')}
                 style={Styles.serviceCard}>
                 <MaterialCommunityIcons
-                  name="school"
+                  name="television-guide"
                   size={40}
                   color={Color.primary}
                 />
-                <Text style={Styles.serviceTxt}>School fees</Text>
+                <Text style={Styles.serviceTxt}>TV</Text>
               </Ripple>
             </View>
           </ScrollView>
+
           <View style={Styles.recent}>
             <View style={Styles.transactionHeader}>
               <Text style={Styles.tTxtHeader}>Recent Transactions</Text>
@@ -181,23 +192,13 @@ const Home = ({ navigation }) => {
             <Transaction />
             <Transaction />
           </View>
+
+          <Modal
+            getLatestWallet={getLatestWallet}
+            activeModal={activeModal}
+            setActiveModal={setActiveModal}
+          />
         </View>
-        <Deposit
-          visible={openDeposit}
-          setOpen={setDepositOpen}
-          getLatestWallet={getLatestWallet}
-        />
-        <SendMoney
-          visible={openSend}
-          setOpen={setSendOpen}
-          getLatestWallet={getLatestWallet}
-          receiver=""
-        />
-        <Withdraw
-          visible={openWithdraw}
-          setOpen={setWithdrawOpen}
-          getLatestWallet={getLatestWallet}
-        />
       </ScrollView>
     </View>
   );

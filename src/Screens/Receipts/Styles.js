@@ -85,6 +85,17 @@ const Styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Color.txtFaint,
   },
+  receiptDetails: {
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    height: 1,
+  },
+  receiptDetailsText: { fontSize: 18, fontWeight: 'bold', marginVertical: 10 },
+  receiptDataItem: {
+    alignItems: 'flex-start',
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+  },
 });
 
 export default Styles;
