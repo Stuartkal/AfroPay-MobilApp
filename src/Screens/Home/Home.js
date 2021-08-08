@@ -148,6 +148,16 @@ const Home = ({ navigation }) => {
               <Ripple
                 onPress={() => Alert.alert('Comming Soon!!')}
                 style={Styles.serviceCard}>
+                <MaterialCommunityIcons
+                  name="cellphone-wireless"
+                  size={40}
+                  color={Color.primary}
+                />
+                <Text style={Styles.serviceTxt}>Data</Text>
+              </Ripple>
+              <Ripple
+                onPress={() => Alert.alert('Comming Soon!!')}
+                style={Styles.serviceCard}>
                 <MaterialIons name="payment" size={40} color={Color.primary} />
                 <Text style={Styles.serviceTxt}>Pay Bill</Text>
               </Ripple>

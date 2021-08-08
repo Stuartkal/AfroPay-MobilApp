@@ -134,6 +134,7 @@ const Styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '95%',
     flexDirection: 'row',
+    marginVertical: 10,
   },
   service: {
     width: '100%',
